@@ -7,7 +7,7 @@ if (length(missing)) stop(paste('Incomplete runtime package:', paste(missing, co
 root <- normalizePath(getwd())
 ui <- fluidPage(
   tags$head(tags$style(HTML('body{background:#f4f6f1;color:#183d3b;font:16px/1.5 system-ui}.container-fluid{max-width:1200px;padding:30px}h1{font-weight:650}.well{background:#e6ede5;border:0}pre{white-space:pre-wrap;overflow-wrap:anywhere}#observations{max-width:100%;max-height:480px;overflow:auto}#observations table{white-space:nowrap}#expression{max-width:100%;overflow:hidden}#expression img{max-width:100%;height:auto!important}.btn-primary{background:#286f5d;border-color:#286f5d}.notice{padding:16px;background:#fff4d9;margin:20px 0}.form-control{font-size:16px}'))),
-  titlePanel('UVIE Spatial - Standalone analysis'),
+  titlePanel('UVIE Health BRE Spatial - Standalone'),
   p('Run the packaged GeoMx kidney workflow, inspect normalized compartment expression, and export reproducible evidence.'),
   div(class='notice', strong('Reference pipeline, not a validated clinical product. '),
       'The first benchmark uses the inputs shipped with the same workflow package. Matching published checkpoints is scoped evidence, not independent validation of every output.'),

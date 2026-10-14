@@ -1,4 +1,4 @@
-# UVIE Health Spatial – Standalone Analysis
+# UVIE Health BRE Spatial - Standalone
 
 A standalone spatial-transcriptomics analysis prototype for GeoMx tissue compartments. No UVIE account or private reasoning engine is required. Established GeoMx software performs the analysis; our application adds a local interface, evidence exports, reproducibility records, and scoped benchmark checks.
 
