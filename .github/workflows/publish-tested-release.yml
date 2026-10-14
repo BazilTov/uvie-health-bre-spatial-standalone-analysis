@@ -1,0 +1,46 @@
+name: Publish verified preview packages
+on:
+  release:
+    types: [published]
+permissions:
+  actions: read
+  contents: write
+jobs:
+  publish:
+    if: github.event.release.tag_name == 'v0.2.0-preview'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check the exact tested build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/${{ github.repository }}/actions/runs/38638835108 > tested-run.json
+          gh api repos/${{ github.repository }}/actions/runs/38638835108/jobs > tested-jobs.json
+          python3 - <<'PY'
+          import json
+          run=json.load(open('tested-run.json'))
+          jobs=json.load(open('tested-jobs.json'))['jobs']
+          assert run['head_sha']=='a62687629a36f1b787a75fc657f63b51fb9ff3f0'
+          assert run['conclusion']=='success'
+          expected={'package (macos-14)','package (macos-15-intel)','package (windows-2022)','package (ubuntu-22.04)'}
+          assert {j['name'] for j in jobs}==expected
+          assert all(j['conclusion']=='success' for j in jobs)
+          assert all(next(s for s in j['steps'] if s['name']=='Verify the unpacked release')['conclusion']=='success' for j in jobs)
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 38638835108
+          pattern: UVIE-Spatial-*
+          path: tested-artifacts
+      - name: Verify checksums and prepare downloads
+        run: python3 scripts/prepare_release_assets.py tested-artifacts release-assets
+      - name: Attach complete packages and instructions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload v0.2.0-preview release-assets/* --repo ${{ github.repository }}
