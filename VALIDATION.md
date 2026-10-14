@@ -24,6 +24,9 @@ Vendor ZIP: 281 records, comprising 277 biological compartments and four control
 - No differential-expression model, participant-level inference, single-cell neighborhood inference, protein binding, or treatment efficacy has been evaluated.
 - Endometriosis was imported, not run through a study-reviewed full QC/statistical workflow. Missing area/nuclei metadata need attention.
 - Docker has not been built here.
-- Windows, Intel-Mac, and Linux jobs are configured but have not run. Do not advertise them as validated downloads yet.
+- Native build, full application benchmark/export checks, and tests from the unpacked release ZIP passed on macos-14 (Apple silicon), macos-15-intel, windows-2022, and ubuntu-22.04. [Completed verification run](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38638835108), tested commit a62687629a36f1b787a75fc657f63b51fb9ff3f0.
+- An additional Apple-silicon artifact was downloaded from GitHub, its artifact and inner-release checksums verified, and its unpacked application/benchmark/exports tested locally.
+- The Linux setup now installs libuv and GLPK, and the bundle materializes runtime links. Intel analysis and archive-export checks allow longer execution while retaining the same dimensional and export assertions. Windows temporary test-folder cleanup is separate from application results.
+- Complete packages are stored as build artifacts. Public GitHub release publication remains pending.
 - The Mac package is a developer preview, not a signed/notarized UVIE app release.
-- Scientific review and native-platform tests remain required before public release.
+- Scientific review remains separate from these software and package checks. Tests cover the listed runner environments; broader OS compatibility has not been established.

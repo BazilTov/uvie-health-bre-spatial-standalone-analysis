@@ -10,7 +10,7 @@ Choose **Packaged kidney reference**, then **Run reference pipeline**. Example i
 
 Runs bind to your computer's loopback interface. No account, cloud processing, automatic package installation, or data upload to UVIE occurs. Closing the launch terminal ends the application. Download run outputs before closing it.
 
-Full releases are platform-specific. Windows uses `launch.bat`; Linux and Mac use `launch.command`. Windows, Intel-Mac, and Linux build-and-test jobs are configured in `.github/workflows/build-full-packages.yml`, but those jobs have not yet run here. Only platforms with successful native execution checks should be offered as ready-to-use public downloads. Linux compatibility depends on the tested distro/glibc baseline; this is not a promise for every OS.
+Full releases are platform-specific. Windows uses `launch.bat`; Linux and Mac use `launch.command`. Native build, application, and unpacked-ZIP checks passed for Apple-silicon Mac (macos-14), Intel Mac (macos-15-intel), Windows (windows-2022), and Linux (ubuntu-22.04). [Verification run](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38638835108). Complete packages are currently workflow artifacts; a public GitHub release has not yet been published. Only platforms with successful native execution checks should be offered as ready-to-use public downloads. Linux compatibility depends on the tested distro/glibc baseline; this is not a promise for every OS.
 
 **A source ZIP differs from a full release.** It contains code and build tooling, not hundreds of megabytes of runtime libraries. End users who want no dependency installation should select a complete platform release.
 
