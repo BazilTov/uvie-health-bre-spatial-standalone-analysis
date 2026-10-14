@@ -18,7 +18,17 @@ if(!ready)throw Error('Bundled application did not start within 90 seconds');
 await page.goto(url);
 await page.waitForFunction(()=>document.querySelector('#status')?.textContent.includes('Ready. No analysis has run.'));
 await page.getByRole('button',{name:'Run reference pipeline'}).click();
-await page.waitForFunction(()=>document.querySelector('#status')?.textContent.includes('Reference pipeline executed through Q3 normalization'),{},{timeout:240000});
+try {
+  await page.waitForFunction(()=>{
+    const text=document.querySelector('#status')?.textContent || '';
+    if (/failed|error/i.test(text)) throw Error(text);
+    return text.includes('Reference pipeline executed through Q3 normalization');
+  },{},{timeout:600000});
+} catch (error) {
+  await writeFile(resolve(out,'app-failure-status.txt'),await page.locator('#status').innerText());
+  await page.screenshot({path:resolve(out,'app-failure.png'),fullPage:true});
+  throw error;
+}
 const status=await page.locator('#status').innerText();
 if(!status.includes('10131 targets across 221 retained compartments'))throw Error('Unexpected retained dimensions: '+status);
 await page.getByText('Benchmark checkpoints',{exact:true}).click();

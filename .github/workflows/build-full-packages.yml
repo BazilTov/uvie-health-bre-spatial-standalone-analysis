@@ -12,6 +12,7 @@ jobs:
       matrix:
         os: [macos-14, macos-15-intel, windows-2022, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     defaults:
       run:
         shell: bash
@@ -32,7 +33,11 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev libpng-dev libtiff5-dev libjpeg-dev
       - name: Prepare and copy the native runtime
         run: |
-          Rscript scripts/prepare_release.R
+          mkdir -p output
+          if ! Rscript scripts/prepare_release.R > output/runtime-setup.log 2>&1; then
+            tail -n 100 output/runtime-setup.log
+            exit 1
+          fi
           python scripts/copy_runtime.py
       - name: Test intake and comparison code
         run: python -m unittest discover -s tests -v
@@ -62,7 +67,17 @@ jobs:
           python -c "import json,platform,pathlib;pathlib.Path('runtime/platform-validation.json').write_text(json.dumps({'platform':platform.system(),'architecture':platform.machine(),'status':'CI app checks passed','scope':'reference execution and displayed checkpoints; see test artifacts'}))"
       - name: Package tested native environment
         run: python scripts/package_release.py --output output/UVIE-Spatial-${{ matrix.os }}.zip
+      - name: Verify the unpacked release
+        run: python scripts/test_unpacked_release.py output/UVIE-Spatial-${{ matrix.os }}.zip
+      - name: Save failure diagnostics
+        if: failure()
+        run: |
+          mkdir -p output
+          cp app-run.log output/ 2>/dev/null || true
+          tail -n 100 output/runtime-setup.log 2>/dev/null || true
+          tail -n 100 app-run.log 2>/dev/null || true
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: UVIE-Spatial-${{ matrix.os }}
           path: |
@@ -70,3 +85,7 @@ jobs:
             output/UVIE-Spatial-*.manifest.json
             output/app-checks.json
             output/app-gene-evidence.json
+            output/app-failure*
+            output/app-run.log
+            output/runtime-setup.log
+            output/unpacked-checks/
