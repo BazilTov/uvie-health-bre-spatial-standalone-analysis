@@ -30,7 +30,7 @@ jobs:
           node-version: '22'
       - name: Install build-time Linux dependencies
         if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev libpng-dev libtiff5-dev libjpeg-dev
+        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev libpng-dev libtiff5-dev libjpeg-dev libuv1-dev
       - name: Prepare and copy the native runtime
         run: |
           mkdir -p output
@@ -73,6 +73,7 @@ jobs:
         if: failure()
         run: |
           mkdir -p output
+          rm -f output/UVIE-Spatial-*.zip output/UVIE-Spatial-*.manifest.json
           cp app-run.log output/ 2>/dev/null || true
           tail -n 100 output/runtime-setup.log 2>/dev/null || true
           tail -n 100 app-run.log 2>/dev/null || true

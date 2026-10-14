@@ -1,5 +1,6 @@
 # Maintainer/build-runner setup only. End users receive the resulting full bundle.
-options(repos=c(CRAN='https://cloud.r-project.org'))
+cran <- if (Sys.info()[['sysname']] == 'Linux') Sys.getenv('RSPM', 'https://cloud.r-project.org') else 'https://cloud.r-project.org'
+options(repos=c(CRAN=cran))
 if (!requireNamespace('BiocManager',quietly=TRUE)) install.packages('BiocManager')
 packages <- c('GeomxTools','NanoStringNCTools','shiny','zip','outliers','ggrepel',
               'ggforce','cowplot','umap','Rtsne','BiocStyle','networkD3','knitr')

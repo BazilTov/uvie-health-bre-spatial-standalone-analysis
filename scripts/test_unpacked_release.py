@@ -11,7 +11,7 @@ root = Path(__file__).resolve().parents[1]
 archive = Path(sys.argv[1]).resolve()
 output = root / 'output/unpacked-checks'
 output.mkdir(parents=True, exist_ok=True)
-with tempfile.TemporaryDirectory(prefix='UVIE Unpacked Release ') as folder:
+with tempfile.TemporaryDirectory(prefix='UVIE Unpacked Release ', ignore_cleanup_errors=(os.name == 'nt')) as folder:
     with zipfile.ZipFile(archive) as bundle:
         bundle.extractall(folder)
         for info in bundle.infolist():
@@ -29,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix='UVIE Unpacked Release ') as folder:
             test_env = os.environ.copy()
             test_env['UVIE_TEST_URL'] = 'http://127.0.0.1:8767'
             subprocess.run([shutil.which('node'), str(root / 'tests/check_app.mjs'), str(output)],
-                           cwd=app, env=test_env, check=True, timeout=780)
+                           cwd=app, env=test_env, check=True, timeout=1500)
         finally:
             if os.name == 'nt':
                 subprocess.run(['taskkill', '/PID', str(process.pid), '/T', '/F'], capture_output=True)

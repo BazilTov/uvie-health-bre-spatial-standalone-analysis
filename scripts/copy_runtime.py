@@ -13,14 +13,14 @@ ROOT = Path(__file__).resolve().parents[1]
 runtime = ROOT / 'runtime'
 source = Path((runtime / 'build-r-home.txt').read_text().strip())
 destination = runtime / 'R'
-shutil.copytree(source,destination,symlinks=True,dirs_exist_ok=True)
+shutil.copytree(source,destination,symlinks=False,dirs_exist_ok=True)
 library = runtime / 'library'
 library.mkdir(exist_ok=True)
 for location in (runtime / 'build-library-paths.txt').read_text().splitlines():
     base = Path(location)
     for package in base.iterdir():
         if package.is_dir() and (package / 'DESCRIPTION').is_file():
-            shutil.copytree(package,library/package.name,symlinks=True,dirs_exist_ok=True)
+            shutil.copytree(package,library/package.name,symlinks=False,dirs_exist_ok=True)
 if os.name != 'nt':
     wrapper = destination / 'bin/R'
     text = wrapper.read_text()
