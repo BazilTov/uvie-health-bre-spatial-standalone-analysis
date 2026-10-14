@@ -1,0 +1,6 @@
+data
+runtime
+*.log
+output
+__pycache__
+.git

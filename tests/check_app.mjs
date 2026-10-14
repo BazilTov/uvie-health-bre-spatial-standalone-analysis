@@ -1,0 +1,51 @@
+import { createRequire } from 'node:module';
+import { readFile, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { stat } from 'node:fs/promises';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})});
+const page=await browser.newPage({viewport:{width:1280,height:1000}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const out=resolve(process.argv[2] || 'output');
+const url=process.env.UVIE_TEST_URL || 'http://127.0.0.1:8765';
+let ready=false;
+for(let attempt=0;attempt<90;attempt++){
+  try{if((await fetch(url)).ok){ready=true;break;}}catch{}
+  await new Promise(resolve=>setTimeout(resolve,1000));
+}
+if(!ready)throw Error('Bundled application did not start within 90 seconds');
+await page.goto(url);
+await page.waitForFunction(()=>document.querySelector('#status')?.textContent.includes('Ready. No analysis has run.'));
+await page.getByRole('button',{name:'Run reference pipeline'}).click();
+await page.waitForFunction(()=>document.querySelector('#status')?.textContent.includes('Reference pipeline executed through Q3 normalization'),{},{timeout:240000});
+const status=await page.locator('#status').innerText();
+if(!status.includes('10131 targets across 221 retained compartments'))throw Error('Unexpected retained dimensions: '+status);
+await page.getByText('Benchmark checkpoints',{exact:true}).click();
+await page.waitForFunction(()=>document.querySelector('#benchmark')?.textContent.trim().startsWith('{'));
+const benchmark=JSON.parse(await page.locator('#benchmark').innerText());
+if(benchmark.checks.length!==4 || benchmark.checks.some(c=>!c.matches))throw Error('Published dimensional checkpoints failed');
+await page.getByText('Gene evidence',{exact:true}).click();
+await page.waitForFunction(()=>document.querySelector('#observations table tbody tr'));
+const download=page.waitForEvent('download');
+await page.locator('#evidence').click();
+await(await download).saveAs(resolve(out,'app-gene-evidence.json'));
+const evidence=JSON.parse(await readFile(resolve(out,'app-gene-evidence.json'),'utf8'));
+if(evidence.value_type!=='Q3-normalized RNA'||evidence.observations.length!==221)throw Error('Normalized evidence export incorrect');
+const bundleDownload=page.waitForEvent('download');
+await page.locator('#bundle').click();
+await(await bundleDownload).saveAs(resolve(out,'app-run-outputs.zip'));
+if((await stat(resolve(out,'app-run-outputs.zip'))).size<100000)throw Error('Run archive appears incomplete');
+await page.screenshot({path:resolve(out,'app-desktop.png'),fullPage:true});
+await page.setViewportSize({width:390,height:900});
+await page.waitForFunction(()=>{
+  const image=document.querySelector('#expression img');
+  return image?.complete && image.naturalWidth>0 && image.naturalWidth<=400*devicePixelRatio;
+},{},{timeout:30000});
+await page.screenshot({path:resolve(out,'app-mobile.png'),fullPage:true});
+const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
+if(overflow)throw Error('App overflows on phone width');
+if(errors.length)throw Error(errors.join('\n'));
+const report={status:'pass',checks:['bundled launcher','UI-triggered full reference pipeline','four published dimensional checkpoints','normalized gene evidence export','run-output archive download','no browser errors','phone layout']};
+await writeFile(resolve(out,'app-checks.json'),JSON.stringify(report,null,2));
+await browser.close();console.log(JSON.stringify(report));

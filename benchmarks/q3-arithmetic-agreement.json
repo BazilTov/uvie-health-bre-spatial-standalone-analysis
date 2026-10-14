@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "scope": "Independent Q3 arithmetic against GeomxTools on the retained matrix, not independent validation of filtering or biology",
+  "atol": 1e-08,
+  "rtol": 1e-09,
+  "compared_values": 2238951,
+  "missing_values": 0,
+  "extra_values": 0,
+  "outside_tolerance": 0,
+  "mean_signed_error": -4.724318553901534e-16,
+  "residual_sample_sd": 8.063508027778256e-14,
+  "mae": 2.584765784045494e-14,
+  "rmse": 8.063644622139701e-14,
+  "max_absolute_error": 4.9112713895738125e-11,
+  "method": "R type-7 75th percentile per segment; factor = Q3 / geometric mean of segment Q3 values"
+}

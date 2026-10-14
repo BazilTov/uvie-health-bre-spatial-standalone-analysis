@@ -1,0 +1,72 @@
+name: Build and test full desktop packages
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-15-intel, windows-2022, ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.5.2'
+          use-public-rspm: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install build-time Linux dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libfreetype6-dev libharfbuzz-dev libfribidi-dev libpng-dev libtiff5-dev libjpeg-dev
+      - name: Prepare and copy the native runtime
+        run: |
+          Rscript scripts/prepare_release.R
+          python scripts/copy_runtime.py
+      - name: Test intake and comparison code
+        run: python -m unittest discover -s tests -v
+      - name: Install browser-test dependencies
+        run: |
+          npm install --no-save playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Start the bundled application
+        env:
+          UVIE_OPEN_BROWSER: '0'
+          UVIE_PORT: '8765'
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            export R_HOME="$PWD/runtime/R"
+            export R_LIBS_USER="$PWD/runtime/library"
+            runtime/R/bin/Rscript.exe --vanilla app.R > app-run.log 2>&1 &
+          else
+            ./launch.command > app-run.log 2>&1 &
+          fi
+          sleep 20
+      - name: Run full UI benchmark and exports
+        run: |
+          mkdir -p output
+          node tests/check_app.mjs output
+      - name: Record validation for this runner
+        run: |
+          python -c "import json,platform,pathlib;pathlib.Path('runtime/platform-validation.json').write_text(json.dumps({'platform':platform.system(),'architecture':platform.machine(),'status':'CI app checks passed','scope':'reference execution and displayed checkpoints; see test artifacts'}))"
+      - name: Package tested native environment
+        run: python scripts/package_release.py --output output/UVIE-Spatial-${{ matrix.os }}.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UVIE-Spatial-${{ matrix.os }}
+          path: |
+            output/UVIE-Spatial-*.zip
+            output/UVIE-Spatial-*.manifest.json
+            output/app-checks.json
+            output/app-gene-evidence.json

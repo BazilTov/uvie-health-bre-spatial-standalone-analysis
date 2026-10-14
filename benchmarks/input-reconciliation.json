@@ -1,0 +1,44 @@
+{
+  "vendor_records": 281,
+  "canonical_records": 239,
+  "vendor_only_records": 42,
+  "changed_metadata_fields": {
+    "nuclei": 235,
+    "aoi": 84,
+    "segment": 84,
+    "pathology": 1
+  },
+  "examples": [
+    {
+      "sample": "DSP-1001250007851-H-A02",
+      "field": "nuclei",
+      "vendor": "16871",
+      "canonical": "202"
+    },
+    {
+      "sample": "DSP-1001250007851-H-A03",
+      "field": "nuclei",
+      "vendor": "17684",
+      "canonical": "102"
+    },
+    {
+      "sample": "DSP-1001250007851-H-A04",
+      "field": "nuclei",
+      "vendor": "15108",
+      "canonical": "98"
+    },
+    {
+      "sample": "DSP-1001250007851-H-A05",
+      "field": "nuclei",
+      "vendor": "15271",
+      "canonical": "143"
+    },
+    {
+      "sample": "DSP-1001250007851-H-A06",
+      "field": "nuclei",
+      "vendor": "18256",
+      "canonical": "195"
+    }
+  ],
+  "decision": "Reproduce the exact input and metadata bundled with GeoMxWorkflows 1.16.0; do not equate the vendor ZIP with it."
+}

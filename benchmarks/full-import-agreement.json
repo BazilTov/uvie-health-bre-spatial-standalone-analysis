@@ -1,0 +1,6 @@
+{
+  "scope": "Full raw probe matrix: DCC parser versus GeomxTools import on package inputs",
+  "values_compared": 4380870,
+  "mismatches": 0,
+  "status": "pass"
+}
