@@ -2,7 +2,7 @@
 cran <- if (Sys.info()[['sysname']] == 'Linux') Sys.getenv('RSPM', 'https://cloud.r-project.org') else 'https://cloud.r-project.org'
 options(repos=c(CRAN=cran))
 if (!requireNamespace('BiocManager',quietly=TRUE)) install.packages('BiocManager')
-packages <- c('GeomxTools','NanoStringNCTools','shiny','zip','outliers','ggrepel',
+packages <- c('GeomxTools','NanoStringNCTools','shiny','zip','png','outliers','ggrepel',
               'ggforce','cowplot','umap','Rtsne','BiocStyle','networkD3','knitr')
 BiocManager::install(packages,version='3.22',ask=FALSE,update=FALSE,Ncpus=2)
 workflow <- tempfile(fileext='.tar.gz')

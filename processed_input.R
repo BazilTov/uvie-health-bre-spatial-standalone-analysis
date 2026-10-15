@@ -1,5 +1,6 @@
 # Read supported, already-processed expression without rerunning a different
 # study's QC or normalization. Uploaded method claims remain user supplied.
+source('spatial_input.R',local=TRUE)
 read_processed_input <- function(directory) {
   required <- c('matrix.csv','metadata.csv','provenance.json')
   if (!all(file.exists(file.path(directory,required)))) stop('Processed ZIP requires matrix.csv, metadata.csv and provenance.json at its root.')
@@ -28,6 +29,7 @@ read_processed_input <- function(directory) {
   if (!any(keep)) stop('No biological compartments supplied.')
   meta[['slide name']] <- meta$tissue; meta[['class']] <- meta$participant; meta$region <- meta$compartment
   rownames(meta) <- meta$Sample_ID
-  list(matrix=values[,keep,drop=FALSE],metadata=meta[keep,,drop=FALSE],provenance=provenance,
+  spatial <- read_spatial_input(directory,ids[keep],meta[keep,,drop=FALSE])
+  list(matrix=values[,keep,drop=FALSE],metadata=meta[keep,,drop=FALSE],provenance=provenance,spatial=spatial,
        controls_excluded=sum(!keep),input_samples=length(ids))
 }

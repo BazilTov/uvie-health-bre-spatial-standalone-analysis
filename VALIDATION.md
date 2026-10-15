@@ -59,3 +59,9 @@ The separate [ovary atlas diagnostic](benchmarks/ovary-atlas/README.md) passed e
 ## v0.3.0 native verification
 
 All four native runners passed the reference UI benchmark, processed-input integrity tests, the checksum-pinned 11,628-gene/80-compartment lung browser flow, and execution from unpacked ZIPs in [the pinned build](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38672756904). Tested application commit: e37725ec86864362a2254ef58850026cd94f2535. Release promotion verifies successful jobs and preserves the exact tested archive bytes; PACKAGE-VERIFICATION.json records package checksums and both browser-test scopes. These checks establish software behavior on the named runners, not independent biological or clinical validity. Earlier local-only language above records the development stage before these native checks.
+
+## Tissue-map source milestone — 15 October 2026
+
+The current source adds optional measured-coordinate maps and registered PNG previews. Local Apple-silicon verification passed the spatial input suite, public Visium browser flow (all 2,825 filtered spots; six selected genes), original kidney full UI benchmark, public lung processed-input regression, and ten Python intake/comparison tests. The exported spatial counts and coordinates match the fixture exactly; source input files survive the run ZIP byte-for-byte. See [spatial-map checks](benchmarks/spatial-map/README.md).
+
+This is not full-transcriptome spatial processing, a neighborhood statistical method, independent biological validation, or validation of other native platforms. Four-platform workflow and unpacked-package tests now include spatial checks; their results must be inspected before publishing updated full downloads. Existing v0.3.0 packages predate tissue maps. No BRE access or credentials are included.

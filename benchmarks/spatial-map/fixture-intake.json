@@ -1,0 +1,24 @@
+{
+  "scope": "Six selected genes, all filtered spots; display and identifier integrity only",
+  "source": "https://www.10xgenomics.com/datasets/mouse-brain-serial-section-2-sagittal-anterior-1-standard-1-0-0",
+  "original_dimensions": [
+    31053,
+    2825,
+    14167739
+  ],
+  "selected_genes": [
+    "C3",
+    "Gfap",
+    "Mbp",
+    "Slc17a7",
+    "Aqp4",
+    "Pecam1"
+  ],
+  "spots": 2825,
+  "coordinates_match": true,
+  "metadata_order": "Deliberately reversed to test identifier joins",
+  "archive_sha256": {
+    "filtered_feature_bc_matrix.tar.gz": "8b0267ad2e433cec1b7cad89320735e778abe8e0e524b5a3c3f8e40b23eec8a3",
+    "spatial.tar.gz": "783a21a101a2fc3f39aa76a33f40dff67be9162464a43839b90fe7d1d836537e"
+  }
+}

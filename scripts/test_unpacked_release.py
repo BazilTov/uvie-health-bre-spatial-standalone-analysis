@@ -20,16 +20,22 @@ with tempfile.TemporaryDirectory(prefix='UVIE Unpacked Release ', ignore_cleanup
                 (Path(folder) / info.filename).chmod(mode & 0o777)
     app = Path(folder) / 'UVIE-Spatial'
     env = os.environ.copy()
-    env.update(UVIE_OPEN_BROWSER='0', UVIE_PORT='8767',
+    test_port = os.environ.get('UVIE_UNPACKED_PORT', '8767')
+    env.update(UVIE_OPEN_BROWSER='0', UVIE_PORT=test_port,
                R_HOME=str(app / 'runtime/R'), R_LIBS_USER=str(app / 'runtime/library'))
     command = ['cmd.exe', '/c', str(app / 'launch.bat')] if os.name == 'nt' else [str(app / 'launch.command')]
     with (output / 'launcher.log').open('w') as log:
         process = subprocess.Popen(command, cwd=app, env=env, stdout=log, stderr=subprocess.STDOUT)
         try:
             test_env = os.environ.copy()
-            test_env['UVIE_TEST_URL'] = 'http://127.0.0.1:8767'
+            test_env['UVIE_TEST_URL'] = 'http://127.0.0.1:' + test_port
             subprocess.run([shutil.which('node'), str(root / 'tests/check_app.mjs'), str(output)],
                            cwd=app, env=test_env, check=True, timeout=1500)
+            fixture = root / 'output/spatial-input'
+            if not (fixture / 'visium-spatial.zip').exists():
+                raise RuntimeError('Public spatial fixture is required to verify the unpacked package')
+            subprocess.run([shutil.which('node'), str(root / 'tests/check_spatial_app.mjs'), str(fixture)],
+                           cwd=app, env=test_env, check=True, timeout=180)
         finally:
             if os.name == 'nt':
                 subprocess.run(['taskkill', '/PID', str(process.pid), '/T', '/F'], capture_output=True)

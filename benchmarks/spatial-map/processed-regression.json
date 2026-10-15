@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "checks": [
+    "published 11628-gene 80-compartment input through interface",
+    "reversed metadata aligned by identifiers",
+    "all 80 C3 values preserved in export",
+    "log scale and partial QC provenance retained",
+    "run bundle download",
+    "mismatched metadata rejected and stale findings cleared",
+    "no browser errors"
+  ]
+}

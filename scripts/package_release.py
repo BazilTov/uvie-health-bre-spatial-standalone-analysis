@@ -13,7 +13,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ['app.R', 'processed_input.R', 'PROCESSED-INPUT.md', 'launch.command', 'launch.bat', 'README.md', 'LICENSE',
+SOURCE = ['app.R', 'processed_input.R', 'spatial_input.R', 'SPATIAL-INPUT.md', 'PROCESSED-INPUT.md', 'launch.command', 'launch.bat', 'README.md', 'LICENSE',
           'THIRD_PARTY.md', 'VALIDATION.md', 'scripts/run_reference.R',
           'benchmarks/kidney_raw_checkpoint.csv', 'benchmarks/input-reconciliation.json',
           'benchmarks/full-import-agreement.json', 'benchmarks/q3-arithmetic-agreement.json']

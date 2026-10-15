@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "scope": "Browser on the current test host; six-gene display subset, all 2825 measured spots",
+  "checks": [
+    "public input imported",
+    "registered PNG tissue map rendered",
+    "gene selection updates tissue map",
+    "spot resolution and pixel units explicit",
+    "all 2825 exported counts match source subset exactly",
+    "all 2825 exported positions match source exactly despite reversed rows",
+    "map PNG and run ZIP downloaded",
+    "missing coordinate rejected and stale map cleared",
+    "source change clears stale geometry",
+    "no browser errors"
+  ]
+}

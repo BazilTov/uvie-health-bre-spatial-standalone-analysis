@@ -43,6 +43,8 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Test processed expression integrity checks
         run: Rscript tests/check_processed_input.R
+      - name: Test spatial coordinates and image integrity
+        run: Rscript tests/check_spatial_input.R
       - name: Install browser-test dependencies
         run: |
           npm install --no-save playwright@1.62.1
@@ -70,6 +72,12 @@ jobs:
         run: |
           python tests/prepare_processed_fixture.py output/processed-input --download
           node tests/check_processed_app.mjs output/processed-input
+      - name: Test tissue maps with pinned public Visium data
+        env:
+          UVIE_TEST_URL: http://127.0.0.1:8765
+        run: |
+          python tests/prepare_spatial_fixture.py output/spatial-input --download
+          node tests/check_spatial_app.mjs output/spatial-input
       - name: Record validation for this runner
         run: |
           python -c "import json,platform,pathlib;pathlib.Path('runtime/platform-validation.json').write_text(json.dumps({'platform':platform.system(),'architecture':platform.machine(),'status':'CI app checks passed','scope':'reference execution and displayed checkpoints; see test artifacts'}))"
@@ -99,4 +107,7 @@ jobs:
             output/runtime-setup.log
             output/processed-input/processed-app-checks.json
             output/processed-input/processed-evidence.json
+            output/spatial-input/spatial-browser-checks.json
+            output/spatial-input/fixture-intake.json
+            output/spatial-input/tissue-map-browser.png
             output/unpacked-checks/

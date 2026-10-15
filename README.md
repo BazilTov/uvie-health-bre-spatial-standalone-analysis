@@ -24,7 +24,11 @@ The interface explores normalized compartment expression and exports JSON and ZI
 
 The v0.3.0 preview and current source also accept a [processed expression ZIP](PROCESSED-INPUT.md), preserving the supplied method, scale, and QC limitations. It aligns sample identifiers, rejects invalid or ambiguous inputs, separates declared control samples, and exports full-precision values. This route explores already-processed data; it does not run or verify upstream QC or normalization. The v0.2.0 release ZIPs predate this feature. The updated native checks passed on Apple-silicon Mac, Intel Mac, Windows x64 and Ubuntu 22.04 x64, including the real-data processed-input flow and execution from unpacked packages. Gene evidence now uses schema version 2 with an explicit scale and generic expression_value field; consumers of version 1 must update.
 
-## Benchmark evidence
+## Tissue-coordinate maps in current source
+
+The current source adds optional [measured coordinates and PNG tissue overlays](SPATIAL-INPUT.md) to processed-expression input. The map separates sections, preserves declared cell/spot/region resolution and units, and exports geometry alongside original expression. A public Visium example with all 2,825 filtered spots and six selected genes passed local Apple-silicon input and browser checks. This is display/import verification, not cell annotation, full-transcriptome processing or biological validation. Native release checks for this addition must pass before new full packages are offered. Published v0.3.0 packages predate this feature. The public application grants no access to the private BRE.
+
+## Kidney benchmark evidence
 
 - Four published dimensional checkpoints match through normalization.
 - **4,380,870 raw probe values** match our independent reader exactly.
@@ -41,12 +45,12 @@ A [Baylor lung reference audit](benchmarks/baylor-lung/README.md) checks release
 
 ## Ovary atlas intake and diagnostic
 
-The [University of Michigan ovary atlas assessment](benchmarks/ovary-atlas/README.md) matched all 4,873,085 raw count values to GeomxTools. Its annotation workbook includes area and nuclei measurements, but the row-to-AOI linkage remains provisional. A prospectively specified donor 2 centroid comparison failed: 112,052 of 168,084 values exceeded the 1e-6 tolerance. Three clusters match and six do not. These results do not establish an author error or full pipeline validation. The failed diagnostic, source hashes, assumptions and reproduction scripts are preserved. Dataset completeness requires reliable identifier linkage as well as populated metadata columns.
+The [University of Michigan ovary atlas assessment](benchmarks/ovary-atlas/README.md) matched all 4,873,085 raw count values to GeomxTools. Its annotation workbook includes area and nuclei measurements, but the row-to-AOI linkage remains provisional. A prospectively specified donor 2 centroid comparison failed: 112,052 of 168,084 values exceeded the 1e-6 tolerance. Three clusters match and six do not. A separate independent implementation agrees with all 3,081,540 recorded normalized values and all 168,084 group averages within 1e-10, verifying the specified arithmetic without resolving intended sample membership or the authors' complete recipe. The original published-reference failure remains. These results do not establish an author error or full pipeline validation. The failed diagnostic, source hashes, assumptions and reproduction scripts are preserved. Dataset completeness requires reliable identifier linkage as well as populated metadata columns.
 
 ## Scientific boundaries
 
 - GeoMx compartments are measured areas, not individually positioned cells.
-- This prototype has no tissue-coordinate file and calculates no cell distances.
+- Published v0.3.0 packages have no coordinate-map feature. Current source optionally accepts measured coordinates and displays tissue maps; it calculates no cell distances or neighborhoods.
 - RNA counts do not establish protein abundance, binding, causation, or efficacy.
 - ROI repeats are not independent participants; inferential claims need participant-aware modeling.
 - Unknown or filtered values must not be described as absent biology.

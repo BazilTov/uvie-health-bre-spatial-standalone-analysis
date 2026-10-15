@@ -43,3 +43,8 @@ AOI_2,P1,Lung,Immune,FALSE
 The method, value type, scale, and QC status are required. `scale` is `linear` or `log2`; `qc_status` is `not_assessed`, `partial`, or `completed`. A supplied `completed` value is a declaration, not verification by UVIE. Other provenance fields are retained in the evidence. Linear values display as log2(value + 1); log2 values display directly, without an extra logarithm. Exported numeric values retain their original scale. Gene evidence uses schema version 2 and the generic `expression_value` field.
 
 Rejecting duplicate or unmatched identifiers, nonnumeric values, missing values, or invalid provenance prevents ambiguous inputs from being displayed as usable findings. Passing these checks establishes input integrity only.
+
+## Optional tissue maps
+
+Current source accepts additional measured-coordinate files and registered PNG previews. See [SPATIAL-INPUT.md](SPATIAL-INPUT.md) for the exact contract and measurement limits. Existing three-file expression inputs continue to work without geometry. Published v0.3.0 packages predate tissue maps.
+

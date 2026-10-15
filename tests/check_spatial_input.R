@@ -1,0 +1,42 @@
+source('processed_input.R')
+root <- tempfile('spatial-input-');dir.create(root)
+write.csv(data.frame(gene='Target',A=10,B=20,C=30),file.path(root,'matrix.csv'),row.names=FALSE)
+metadata <- data.frame(Sample_ID=c('C','A','B'),participant=c('P2','P1','P1'),tissue='tissue',compartment='unannotated',is_control='FALSE')
+write.csv(metadata,file.path(root,'metadata.csv'),row.names=FALSE)
+jsonlite::write_json(list(schema_version=1,method='test',value_type='counts',scale='linear',qc_status='not_assessed'),file.path(root,'provenance.json'),auto_unbox=TRUE)
+coordinates <- data.frame(Sample_ID=c('C','B','A'),section_id=c('S2','S1','S1'),x=c(0,2,1),y=c(0,2,1))
+config <- list(schema_version=1,units='um',resolution='region',source='Test measured positions',y_direction='down')
+write_spatial <- function(c=coordinates,p=config) {
+  write.csv(c,file.path(root,'coordinates.csv'),row.names=FALSE)
+  jsonlite::write_json(p,file.path(root,'spatial.json'),auto_unbox=TRUE)
+}
+fails <- function(c=coordinates,p=config) {
+  write_spatial(c,p);stopifnot(inherits(try(read_processed_input(root),silent=TRUE),'try-error'))
+}
+write_spatial();good <- read_processed_input(root)
+stopifnot(identical(good$spatial$coordinates$Sample_ID,c('A','B','C')),identical(good$spatial$coordinates$x,c(1L,2L,0L)))
+png(file.path(root,'map.png'))
+drawn <- draw_spatial_map(good$spatial,setNames(c(10,20,30),c('A','B','C')),'S1','Target','counts')
+dev.off()
+stopifnot(identical(drawn$Sample_ID,c('A','B')),identical(drawn$expression_value,c(10,20)))
+c <- coordinates;c$Sample_ID[1] <- 'wrong';fails(c)
+c <- coordinates;c$Sample_ID[1] <- 'B';fails(c)
+c <- coordinates;c$x[1] <- Inf;fails(c)
+c <- coordinates;c$section_id <- 'S1';fails(c)
+c <- coordinates;c$x[2:3] <- 1;c$y[2:3] <- 1;fails(c)
+p <- config;p$units <- 'unknown';fails(p=p)
+p <- config;p$resolution <- 'UMAP';fails(p=p)
+p <- config;p$y_direction <- 'up';fails(p=p)
+# Same position in distinct sections is valid; no section stitching is inferred.
+c <- coordinates;c$x[1] <- 1;c$y[1] <- 1;write_spatial(c);invisible(read_processed_input(root))
+# Verify raster corner orientation using an asymmetric image and declared mapping.
+img <- array(1,dim=c(5,5,3));img[1:2,1:2,2:3] <- 0
+png::writePNG(img,file.path(root,'tissue.png'))
+p <- config;p$images <- list(list(section_id='S1',file='tissue.png',pixels_per_unit=1,x_origin=0,y_origin=0))
+write_spatial(p=p);good <- read_processed_input(root)
+stopifnot(good$spatial$images$S1$raster[1,1]=='#FF0000',good$spatial$images$S1$width==5)
+png(file.path(root,'overlay.png'));draw_spatial_map(good$spatial,c(A=10,B=20,C=30),'S1','Target','counts');dev.off()
+p$images[[1]]$pixels_per_unit <- 10;fails(p=p)
+p$images[[1]]$pixels_per_unit <- 1;p$images[[1]]$file <- '../tissue.png';fails(p=p)
+unlink(root,recursive=TRUE)
+cat('Spatial integrity tests passed: identifier joins, section isolation, units, resolution, finite coordinates, raster mapping, and unsafe input rejection.\n')
