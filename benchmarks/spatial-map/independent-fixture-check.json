@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "scope": "Independent fixture conversion check; not biological validation",
+  "count_values": 16950,
+  "count_differences": 0,
+  "positions": 2825,
+  "coordinate_differences": 0,
+  "image_bytes_identical": true,
+  "vendor_preview_scale_identical": true,
+  "reader": "Matrix 1.7.4",
+  "limitations": "Six selected genes and all filtered spots in one section; no micrometre conversion, cell annotation or disease inference."
+}

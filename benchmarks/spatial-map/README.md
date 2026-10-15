@@ -30,3 +30,9 @@ Launch the application and run `node tests/check_spatial_app.mjs output/spatial-
 ## Attribution
 
 Data: [10x Genomics public dataset, CC BY 4.0](https://www.10xgenomics.com/datasets/mouse-brain-serial-section-2-sagittal-anterior-1-standard-1-0-0). [Official image-coordinate definitions](https://www.10xgenomics.com/support/software/space-ranger/2.1/analysis/outputs/spatial-outputs). This is one mouse and one tissue section; spots are not independent donors or individually localized cells.
+
+## Independent conversion check
+
+A separate R diagnostic uses Matrix's Matrix Market reader directly on the original vendor archive, rather than calling the Python fixture converter. All **16,950 counts** in the six-gene fixture match exactly; all **2,825 positions** match the vendor barcode-keyed position table; the preview image bytes and vendor scale match exactly. See `independent-fixture-check.json` and `check_public_fixture.R`. This verifies the scoped example conversion, not biological findings or physical micrometre calibration.
+
+After preparing the fixture, reproduce with `Rscript benchmarks/spatial-map/check_public_fixture.R DATA_DIRECTORY`. The directory must contain the two original archives and the prepared `input/` folder. The diagnostic uses Matrix and jsonlite; it is not an additional end-user setup requirement.
