@@ -54,3 +54,8 @@ The initial negative-control differences were caused by our diagnostic omitting 
 The development source adds a study-method-preserving processed-input route. [Local browser checks and reproduction instructions](benchmarks/processed-input/README.md) cover the published 11,628-gene, 80-compartment lung matrix, keyed metadata alignment, full-precision gene export, retained upstream-processing limitations, run downloads and invalid-input rejection. The full kidney UI regression also passed after these changes. These local checks do not update the existing release ZIPs or establish native validation of a new release.
 
 The separate [ovary atlas diagnostic](benchmarks/ovary-atlas/README.md) passed exact raw import but failed the predeclared donor 2 centroid comparison. Its metadata linkage remains provisional. It is not a completed full-pipeline benchmark and supplies no evidence of author error.
+
+
+## v0.3.0 native verification
+
+All four native runners passed the reference UI benchmark, processed-input integrity tests, the checksum-pinned 11,628-gene/80-compartment lung browser flow, and execution from unpacked ZIPs in [the pinned build](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38672756904). Tested application commit: e37725ec86864362a2254ef58850026cd94f2535. Release promotion verifies successful jobs and preserves the exact tested archive bytes; PACKAGE-VERIFICATION.json records package checksums and both browser-test scopes. These checks establish software behavior on the named runners, not independent biological or clinical validity. Earlier local-only language above records the development stage before these native checks.

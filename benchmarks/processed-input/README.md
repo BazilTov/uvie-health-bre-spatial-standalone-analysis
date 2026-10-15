@@ -13,3 +13,8 @@ After the change, the full kidney interface test passed all four published dimen
 Run `Rscript tests/check_processed_input.R`. For the browser test, run `python tests/prepare_processed_fixture.py output/processed-input --download`, start the app locally, then run `node tests/check_processed_app.mjs output/processed-input` with Playwright available and UVIE_TEST_URL set to the local app URL. Downloads are developer test setup only, not application behavior. Input hashes come from the existing Baylor benchmark manifest.
 
 Gene evidence now uses schema version 2, a generic expression_value field and an explicit scale. JSON exports retain full numeric precision instead of display rounding. Existing schema-version-1 consumers must update for the new field.
+
+
+## Subsequent native verification
+
+After the local checks, the same reference, processed-input and unpacked-package checks passed on all four runners in [the pinned native build](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38672756904). Local-only wording above records the earlier development stage. The v0.3.0 preview uses the exact tested ZIPs.

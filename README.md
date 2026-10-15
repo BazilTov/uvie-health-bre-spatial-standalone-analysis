@@ -4,13 +4,13 @@ A standalone spatial-transcriptomics analysis prototype for GeoMx tissue compart
 
 ## Full package for researchers
 
-The Apple-silicon Mac developer-preview release includes **R, the analysis libraries, and the wired pipeline**. Unzip the full release and open `launch.command`. Your existing browser displays the local interface. The full package needs no separate Python, R, Docker, or analysis-library installation.
+The platform-specific developer-preview releases include **R, the analysis libraries, and the wired pipeline**. Unzip the full release and open `launch.command`. Your existing browser displays the local interface. The full package needs no separate Python, R, Docker, or analysis-library installation.
 
 Choose **Packaged kidney reference**, then **Run reference pipeline**. Example inputs are supplied by the bundled reference package. Choose a gene or compartment after processing and download its evidence or complete run outputs.
 
 Runs bind to your computer's loopback interface. No account, cloud processing, automatic package installation, or data upload to UVIE occurs. Closing the launch terminal ends the application. Download run outputs before closing it.
 
-Full releases are platform-specific. Windows uses `launch.bat`; Linux and Mac use `launch.command`. Native build, application, and unpacked-ZIP checks passed for Apple-silicon Mac (macos-14), Intel Mac (macos-15-intel), Windows (windows-2022), and Linux (ubuntu-22.04). [Verification run](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38638835108). Complete packages, checksums, and launch instructions are available in the [v0.2.0 developer-preview release](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/releases/tag/v0.2.0-preview). Only platforms with successful native execution checks should be offered as ready-to-use public downloads. Linux compatibility depends on the tested distro/glibc baseline; this is not a promise for every OS.
+Full releases are platform-specific. Windows uses `launch.bat`; Linux and Mac use `launch.command`. Native build, application, and unpacked-ZIP checks passed for Apple-silicon Mac (macos-14), Intel Mac (macos-15-intel), Windows (windows-2022), and Linux (ubuntu-22.04). [Verification run](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38672756904). Complete packages, checksums, and launch instructions are available in the [v0.3.0 developer-preview release](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/releases/tag/v0.3.0-preview). Only platforms with successful native execution checks should be offered as ready-to-use public downloads. Linux compatibility depends on the tested distro/glibc baseline; this is not a promise for every OS.
 
 **A source ZIP differs from a full release.** It contains code and build tooling, not hundreds of megabytes of runtime libraries. End users who want no dependency installation should select a complete platform release.
 
@@ -22,7 +22,7 @@ The interface explores normalized compartment expression and exports JSON and ZI
 
 ## Processed data from other studies
 
-The development source also accepts a [processed expression ZIP](PROCESSED-INPUT.md), preserving the supplied method, scale, and QC limitations. It aligns sample identifiers, rejects invalid or ambiguous inputs, separates declared control samples, and exports full-precision values. This route explores already-processed data; it does not run or verify upstream QC or normalization. The existing v0.2.0 release ZIPs predate this feature. The new route has been tested locally on Apple-silicon Mac; it is not yet a newly published cross-platform release.
+The v0.3.0 preview and current source also accept a [processed expression ZIP](PROCESSED-INPUT.md), preserving the supplied method, scale, and QC limitations. It aligns sample identifiers, rejects invalid or ambiguous inputs, separates declared control samples, and exports full-precision values. This route explores already-processed data; it does not run or verify upstream QC or normalization. The v0.2.0 release ZIPs predate this feature. The updated native checks passed on Apple-silicon Mac, Intel Mac, Windows x64 and Ubuntu 22.04 x64, including the real-data processed-input flow and execution from unpacked packages. Gene evidence now uses schema version 2 with an explicit scale and generic expression_value field; consumers of version 1 must update.
 
 ## Benchmark evidence
 

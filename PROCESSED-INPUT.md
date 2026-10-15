@@ -1,6 +1,6 @@
 # Explore processed compartment expression
 
-This input route works with compatible tissue-compartment data from any disease or healthy tissue. It imports an existing expression matrix and preserves its stated method and QC status. It does not perform or verify upstream QC, normalization, differential expression, or biological annotation. It is available in development source after the v0.2.0 preview; existing preview ZIPs do not contain it.
+This input route works with compatible tissue-compartment data from any disease or healthy tissue. It imports an existing expression matrix and preserves its stated method and QC status. It does not perform or verify upstream QC, normalization, differential expression, or biological annotation. It is included in v0.3.0 preview packages and current source. The earlier v0.2.0 ZIPs do not contain it.
 
 Create a ZIP with these three files at its root. Choose **Processed expression ZIP**, select the ZIP and press **Load processed expression**.
 

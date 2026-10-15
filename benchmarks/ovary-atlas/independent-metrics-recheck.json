@@ -1,0 +1,9 @@
+{
+  "compared_values": 168084,
+  "outside_tolerance": 112052,
+  "mean_signed_error": -0.0014527190658119153,
+  "residual_sample_sd": 0.08538051801220231,
+  "rmse": 0.08539262192097762,
+  "max_absolute_error": 1.4192713355981708,
+  "method": "Independent csv/math/statistics calculation; did not call spatial.compare"
+}
