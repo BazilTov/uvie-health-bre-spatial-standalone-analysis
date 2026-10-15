@@ -13,7 +13,7 @@ import tarfile
 import zipfile
 from pathlib import Path
 import argparse
-import urllib.request
+import subprocess
 
 ARCHIVES = {
     'spatial.tar.gz': '783a21a101a2fc3f39aa76a33f40dff67be9162464a43839b90fe7d1d836537e',
@@ -103,7 +103,16 @@ if __name__ == '__main__':
     root.mkdir(parents=True, exist_ok=True)
     if args.download:
         prefix = 'https://cf.10xgenomics.com/samples/spatial-exp/1.0.0/V1_Mouse_Brain_Sagittal_Anterior_Section_2/V1_Mouse_Brain_Sagittal_Anterior_Section_2_'
-        for name in ARCHIVES:
-            if not (root / name).exists():
-                urllib.request.urlretrieve(prefix + name, root / name)
+        for name, expected in ARCHIVES.items():
+            target = root / name
+            if not target.exists() or hashlib.sha256(target.read_bytes()).hexdigest() != expected:
+                temporary = root / (name + '.partial')
+                # Use the same standard download client used for the original
+                # verified acquisition; the public CDN rejects urllib's client.
+                subprocess.run(['curl', '--fail', '--location', '--retry', '3',
+                                '--connect-timeout', '30', '--max-time', '180',
+                                prefix + name, '--output', str(temporary)], check=True)
+                if hashlib.sha256(temporary.read_bytes()).hexdigest() != expected:
+                    raise ValueError('Downloaded public archive checksum mismatch: ' + name)
+                temporary.replace(target)
     prepare(root)
