@@ -19,6 +19,16 @@ png(file.path(root,'map.png'))
 drawn <- draw_spatial_map(good$spatial,setNames(c(10,20,30),c('A','B','C')),'S1','Target','counts')
 dev.off()
 stopifnot(identical(drawn$Sample_ID,c('A','B')),identical(drawn$expression_value,c(10,20)))
+# Verify constant expression renders with a single legend entry matching marker color.
+legend_calls <- list()
+legend <- function(...) {args<-list(...);legend_calls[[length(legend_calls)+1L]]<<-args;do.call(graphics::legend,args)}
+png(file.path(root,'constant-map.png'))
+draw_spatial_map(good$spatial,c(A=0,B=0,C=0),'S1','Constant target','counts')
+dev.off()
+stopifnot(length(legend_calls)==1L,length(legend_calls[[1]]$legend)==1L,
+          identical(legend_calls[[1]]$legend,'All positions: 0'),
+          identical(legend_calls[[1]]$col,hcl.colors(100,'Viridis')[50]))
+rm(legend)
 c <- coordinates;c$Sample_ID[1] <- 'wrong';fails(c)
 c <- coordinates;c$Sample_ID[1] <- 'B';fails(c)
 c <- coordinates;c$x[1] <- Inf;fails(c)

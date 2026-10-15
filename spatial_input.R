@@ -77,8 +77,13 @@ draw_spatial_map <- function(spatial, expression, section, title, value_label, o
          xlab=paste('x',unit),ylab=paste('y',unit),main=title)
   }
   points(d$x,d$y,pch=16,col=colors,cex=.7)
-  legend('topright',legend=c(paste('Low:',signif(limits[1],4)),paste('High:',signif(limits[2],4))),
-         pch=16,col=palette[c(1,100)],bg='white',cex=.8,title=value_label)
+  if (diff(limits)==0) {
+    legend('topright',legend=paste('All positions:',signif(limits[1],4)),pch=16,
+           col=palette[50],bg='white',cex=.8,title=value_label)
+  } else {
+    legend('topright',legend=c(paste('Low:',signif(limits[1],4)),paste('High:',signif(limits[2],4))),
+           pch=16,col=palette[c(1,100)],bg='white',cex=.8,title=value_label)
+  }
   mtext(paste(section,'|',spatial$config$resolution,'measurements | color range is section-specific'),side=3,cex=.75)
   invisible(data.frame(Sample_ID=d$Sample_ID,x=d$x,y=d$y,expression_value=values))
 }
