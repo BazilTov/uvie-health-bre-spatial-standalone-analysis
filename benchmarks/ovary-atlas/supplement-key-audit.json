@@ -1,0 +1,66 @@
+{
+  "adm7506_Data_S1.xlsx": {
+    "sha256": "e2b2194a2ae287dd2b0c47a150c4a38eff4c38f125fc78f8725bc359f5b92548",
+    "sheets": [
+      "Donor 1",
+      "Donor 2"
+    ],
+    "explicit_assay_id_string_matches": []
+  },
+  "adm7506_Data_S2.xlsx": {
+    "sha256": "875cf9a93e655ff323260cacdf78fa05873ef12212b74b81ae4967a1cd3ee8b2",
+    "sheets": [
+      "Donor 1",
+      "Donor 2"
+    ],
+    "explicit_assay_id_string_matches": []
+  },
+  "adm7506_Data_S3.xlsx": {
+    "sha256": "6af7ec92876815813c509959b0940fbfe9be0abf05c2089a12cd8e4ec0709273",
+    "sheets": [
+      "Donor 1 ST - DE Genes",
+      "Donor 2 ST - DE Genes"
+    ],
+    "explicit_assay_id_string_matches": []
+  },
+  "adm7506_Data_S4.xlsx": {
+    "sha256": "91745c071c244c630eb9a13aefe9c6594fa136e3f0ea76cb99db2a00586bf048",
+    "sheets": [
+      "Donor 1 LRPath",
+      "Donor 2 LRPath"
+    ],
+    "explicit_assay_id_string_matches": []
+  },
+  "adm7506_Data_S5.xlsx": {
+    "sha256": "c762307350e171baa9cc00a1b96709d570c49f7382b3baf9b40b9bd5cb1c1f49",
+    "sheets": [
+      "Granulosa - 96 Genes",
+      "Oocyte - 76 Genes",
+      "Theca - 46 Genes"
+    ],
+    "explicit_assay_id_string_matches": []
+  },
+  "adm7506_Data_S6.xlsx": {
+    "sha256": "aaa5edd16761ef674b2de7935d832cbd584973562a67a8920a19c3e01c278f19",
+    "sheets": [
+      "Donor 3",
+      "Donor 4",
+      "Donor 5"
+    ],
+    "explicit_assay_id_string_matches": []
+  },
+  "adm7506_Data_S7.xlsx": {
+    "sha256": "faf400b9224bb05fe18c9880228cf299753b90d91aa98e53681e24e07153c303",
+    "sheets": [
+      "immu4_mean_detect"
+    ],
+    "explicit_assay_id_string_matches": []
+  },
+  "adm7506_Data_S8.xlsx": {
+    "sha256": "67e9ac5bcddbce7a6cb6b4dd13b77a6b53081a9d72417593a0dde877f1e84375",
+    "sheets": [
+      "Sheet 1"
+    ],
+    "explicit_assay_id_string_matches": []
+  }
+}

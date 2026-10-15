@@ -1,0 +1,8 @@
+{
+  "scope": "Follow-up audit after the original centroid mismatch; not a fresh blinded benchmark",
+  "question": "Do independent arithmetic and the recorded R implementation agree for the specified pipeline and provisional labels?",
+  "inputs": "Original donor 2 DCCs and PKC; saved metadata, normalized matrix and centroids remain frozen",
+  "procedure": ["Parse endogenous single-probe counts independently from raw files", "Floor zero counts at one", "Calculate endogenous-only CPM and log2", "Apply quantile normalization with average-rank tie interpolation", "Compute arithmetic means for the same recorded clusters"],
+  "tolerance": {"absolute": 1e-10, "relative": 0},
+  "limits": ["Agreement would verify this arithmetic, not the authors' intended sample mapping or complete processing recipe", "Do not permute labels or tune parameters to fit published centroids", "Record mismatches without replacing the original reports"]
+}

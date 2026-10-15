@@ -1,0 +1,21 @@
+{
+  "audit_phase": "Independent arithmetic and public annotation-key review completed; reference reproduction remains unresolved",
+  "calculation_check": "Independent NumPy implementation from original DCCs matches the specified R normalization and cluster-mean calculation within absolute tolerance 1e-10",
+  "mapping_review": "GEO sample characteristics inspected contain tissue, subject id and subject status. Data S1 has ROI/subregion labels without an explicit DCC-to-row crosswalk. Searches across text cells in all eight supplementary workbooks found no DSP/GSM assay IDs or explicit Sample_ID/AOI_ID fields. This is limited to inspected sources and does not prove a crosswalk is unavailable elsewhere.",
+  "original_failed_comparison": "Preserved; do not replace it with the arithmetic implementation pass",
+  "cause": "Not established. Algorithm choice, exact input selection, reference grouping and provisional mapping remain potential explanations.",
+  "needed_for_full_reproduction": [
+    "Explicit DCC/GEO sample ID to Data S1 AOI/row mapping",
+    "Cluster membership used to calculate Data S2 donor 2 centroids",
+    "Exact analysis inputs and normalization/QC recipe, including code or software settings"
+  ],
+  "decision": "Keep as an exact raw-import benchmark and unresolved conditional diagnostic. Do not advertise as full independent end-to-end validation.",
+  "author_error": "Not established",
+  "frozen_reference_sha256": {
+    "sample-annotation.csv": "f20b0376caf8cd3a1288c8e6634ed5f120e444d4e8753cc287bbe395d998fc5d",
+    "donor2-log2-cpm-quantile.csv": "42a0f17281c9aed689cd72ca4b964ff29caff347d78817895c32d81467173012",
+    "candidate-donor2-centroids.csv": "a764bfaa2fe0b697d502ee01f92e2dfd6cf12a901035b65371bb7d5de4faeabb",
+    "published-donor2-centroids.csv": "a89b7c94f7ac721a4986bfee454473fbc04d2ae629dffeefda046701e97495d6",
+    "donor2-centroid-agreement.json": "0df96d13015bc42a0db15afbe21622bb4db7ddc75fb9a83c45a827ff694ef7e3"
+  }
+}

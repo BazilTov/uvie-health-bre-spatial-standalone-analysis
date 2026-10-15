@@ -1,0 +1,18 @@
+{
+  "scope": "Independent NumPy arithmetic from original DCCs; same provisional annotations and explicitly specified algorithm, not proof of author recipe or mapping",
+  "normalized_matrix_vs_R": {
+    "compared_values": 3081540,
+    "outside_tolerance": 0,
+    "max_absolute_error": 1.8474111129762605e-13,
+    "rmse": 3.573245567036421e-15
+  },
+  "cluster_means_vs_R": {
+    "compared_values": 168084,
+    "outside_tolerance": 0,
+    "max_absolute_error": 6.217248937900877e-14,
+    "rmse": 3.1556443383267958e-15
+  },
+  "mapping_status": "provisional; no labels changed or optimized to match reference",
+  "numpy_version": "2.3.5",
+  "status": "pass"
+}

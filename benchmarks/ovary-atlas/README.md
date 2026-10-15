@@ -34,3 +34,19 @@ The released application's kidney/Q3 runner is unchanged by this diagnostic. Thi
 Download the raw archive, GEO family SOFT, probe panel and original Data S1/S2 workbooks into one directory as `raw.tar`, `family.soft.gz`, `panel.pkc.gz`, `adm7506_Data_S1.xlsx`, `adm7506_Data_S2.xlsx`. Verify `input-hashes.json`. The original supplementary ZIP is inside the Europe PMC supplementary-files archive.
 
 The developer-only preparer requires Python with openpyxl. Run `python benchmarks/ovary-atlas/prepare_inputs.py DATA_DIRECTORY`, then `Rscript benchmarks/ovary-atlas/check-ovary.R DATA_DIRECTORY` with GeomxTools 3.14.0 and limma 3.66.0 available. The script records R session information and the donor 2 normalized matrix. `compare_outputs.py` produces the two separate agreement reports, using the unchanged intake/comparison utilities. The diagnostics are not called by the released application.
+
+
+## Follow-up: independent arithmetic and annotation review
+
+A separately recorded follow-up recomputed donor 2 endogenous counts directly from the original DCC files and PKC, floored zeros at one, and independently implemented CPM, log2, quantile normalization with average-rank tie interpolation, and arithmetic cluster means in NumPy. It did not call the R pipeline or the original matrix-comparison helper. The original matrices, labels, tolerance and failed published-reference comparison were preserved.
+
+- All **3,081,540 normalized values** agree with the recorded R output within absolute tolerance 1e-10; maximum difference 1.8474111129762605e-13.
+- All **168,084 group averages** agree with the recorded R output within that tolerance; maximum difference 6.217248937900877e-14.
+
+This verifies arithmetic for the **specified algorithm and provisional labels**, not that these are the authors' intended inputs, group membership or complete recipe. It does not convert the failed published-centroid reproduction into a pass or clear every possible implementation assumption.
+
+The public-key review covered GEO sample characteristics and text cells in all eight journal supplementary workbooks. The inspected workbooks did not expose DCC/GEO identifiers or an explicit Sample_ID/AOI_ID crosswalk. Data S5 adds marker-expression tables grouped by cluster labels but does not supply a DCC-keyed annotation join; cluster numbers in different views are not assumed to be interchangeable identities. This finding is limited to inspected sources, not a claim that a crosswalk is unavailable anywhere.
+
+**Audit outcome:** retain the successful raw-import benchmark, preserve the failed conditional comparison, and classify complete author-reference reproduction as unresolved. No author error is established. A precise clarification would request the DCC-to-annotation crosswalk, the membership used for Data S2 centroids, and the exact input/processing recipe. We will not optimize labels or thresholds to fit the reference.
+
+See `independent-arithmetic-plan.json`, `independent-arithmetic-agreement.json`, `supplement-key-audit.json`, and `followup-audit-summary.json`. To reproduce the independent arithmetic, use Python with NumPy and run `python benchmarks/ovary-atlas/independent_arithmetic.py DATA_DIRECTORY` after the original prepared inputs and R diagnostic outputs exist. This is a developer diagnostic, not an extra end-user dependency.
