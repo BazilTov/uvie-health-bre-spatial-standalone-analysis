@@ -24,29 +24,33 @@ for runner, label in names.items():
         bad = archive.testzip()
         if bad:
             raise SystemExit(f'Corrupt ZIP entry: {bad}')
-        if 'UVIE-Spatial/app.R' not in archive.namelist():
+        if not all(name in archive.namelist() for name in ('UVIE-Spatial/app.R','UVIE-Spatial/processed_input.R','UVIE-Spatial/PROCESSED-INPUT.md')):
             raise SystemExit(f'Missing application: {runner}')
-    destination = output / f'UVIE-Health-BRE-Spatial-Standalone-v0.2.0-{label}.zip'
+    destination = output / f'UVIE-Health-BRE-Spatial-Standalone-v0.3.0-{label}.zip'
     shutil.copyfile(package, destination)
     manifest['download_filename'] = destination.name
     destination.with_suffix('.manifest.json').write_text(json.dumps(manifest, indent=2))
     checks = json.loads((package.parent / 'unpacked-checks/app-checks.json').read_text())
     if checks['status'] != 'pass':
         raise SystemExit(f'Unpacked-package evidence did not pass: {runner}')
-    verified.append({'runner': runner, 'file': destination.name, 'sha256': digest, 'checks': checks})
+    processed = json.loads((package.parent / 'processed-input/processed-app-checks.json').read_text())
+    if processed['status'] != 'pass':
+        raise SystemExit(f'Processed-input browser evidence did not pass: {runner}')
+    verified.append({'runner': runner, 'file': destination.name, 'sha256': digest, 'checks': checks, 'processed_input_checks': processed})
 
 root = Path(__file__).resolve().parents[1]
 shutil.copyfile(root / 'DOWNLOAD-AND-LAUNCH.md', output / 'DOWNLOAD-AND-LAUNCH.md')
 shutil.copyfile(root / 'VALIDATION.md', output / 'VALIDATION.md')
+shutil.copyfile(root / 'PROCESSED-INPUT.md', output / 'PROCESSED-INPUT.md')
 (output / 'PACKAGE-VERIFICATION.json').write_text(json.dumps({
-    'tested_commit': 'a62687629a36f1b787a75fc657f63b51fb9ff3f0',
-    'tested_run': 'https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38638835108',
+    'tested_commit': 'e37725ec86864362a2254ef58850026cd94f2535',
+    'tested_run': 'https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38672756904',
     'packages': verified,
     'scope': 'Native application, reference checkpoints, exports, and unpacked-ZIP checks; biological validation is separate.'
 }, indent=2))
 lines = []
 for path in sorted(output.iterdir()):
-    if path.is_file():
+    if path.is_file() and path.name != 'SHA256SUMS.txt':
         with path.open('rb') as file:
             lines.append(f'{hashlib.file_digest(file, "sha256").hexdigest()}  {path.name}')
 (output / 'SHA256SUMS.txt').write_text('\n'.join(lines) + '\n')

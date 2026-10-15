@@ -2,7 +2,7 @@
 
 ## Choose a complete package
 
-Download one of the four **UVIE-Health-BRE-Spatial-Standalone-v0.2.0-...zip** assets on this release page. They include R, GeoMx libraries, the application, and the kidney reference inputs. You need an existing web browser; no separate R, Python, Docker, or analysis-library installation is required.
+Download one of the four **UVIE-Health-BRE-Spatial-Standalone-v0.3.0-...zip** assets on this release page. They include R, GeoMx libraries, the application, and the kidney reference inputs. You need an existing web browser; no separate R, Python, Docker, or analysis-library installation is required.
 
 | Computer | ZIP filename ending | Launcher |
 |---|---|---|
@@ -24,6 +24,10 @@ Mac: Apple menu > About This Mac identifies the chip or processor. Native releas
 5. Download your results before closing the launcher. Runs are local and do not upload tissue data to UVIE.
 
 If port 8765 is already in use, stop the earlier instance or set `UVIE_PORT` to another unused port before launching. If the page does not load, inspect the launcher terminal for its error message and confirm that you downloaded the package for your processor and extracted the entire ZIP.
+
+## Explore processed expression from another study
+
+Choose **Processed expression ZIP**, select a ZIP containing matrix.csv, metadata.csv and provenance.json at its root, then click **Load processed expression**. The included PROCESSED-INPUT.md explains the format. This route preserves the supplied scale, method and QC limitations, aligns sample identifiers and separates declared controls. It does not rerun or verify upstream QC or normalization. It can explore supported compartment data across diseases and healthy tissues; it does not support every spatial platform or input format automatically.
 
 ## Verify a download
 
