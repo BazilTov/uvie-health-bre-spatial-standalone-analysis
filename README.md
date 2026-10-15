@@ -20,6 +20,10 @@ The R runner evaluates the code distributed with GeoMxWorkflows 1.16.0 through Q
 
 The interface explores normalized compartment expression and exports JSON and ZIP results. It does not calculate differential-expression significance or infer drug effectiveness. The custom GeoMx ZIP option applies the kidney QC profile; another study requires review of parameters and experimental design. Expected layout: one dataset folder with `dccs/`, `pkcs/`, and an `annotation/` XLSX containing a `Template` sheet. Reference fields include sample identifiers, tissue/slide, group, compartment, segment area, and nuclei.
 
+## Processed data from other studies
+
+The development source also accepts a [processed expression ZIP](PROCESSED-INPUT.md), preserving the supplied method, scale, and QC limitations. It aligns sample identifiers, rejects invalid or ambiguous inputs, separates declared control samples, and exports full-precision values. This route explores already-processed data; it does not run or verify upstream QC or normalization. The existing v0.2.0 release ZIPs predate this feature. The new route has been tested locally on Apple-silicon Mac; it is not yet a newly published cross-platform release.
+
 ## Benchmark evidence
 
 - Four published dimensional checkpoints match through normalization.
@@ -34,6 +38,10 @@ Agreement is scoped. It does not independently validate biological findings, the
 ## Second-dataset audit: agreement and discrepancies
 
 A [Baylor lung reference audit](benchmarks/baylor-lung/README.md) checks released analysis components on an additional public dataset. Raw import matched 2,182,540 values exactly. Conditional normalization matched 930,240 endogenous gene values within the predeclared tolerance, using the published sample and target selections. **An initial diagnostic omitted documented probe QC and had 24 negative-control differences. Adding that stage in a separately planned follow-up resolved all 24; all 930,320 conditional normalized values pass.** Both the initial failure and its resolution are preserved. Full QC reproduction remains unresolved because of nuclei/threshold differences and missing original annotation provenance. This is not end-to-end validation of the application on Baylor data. Reports, input hashes, all negative-control differences, and reproduction scripts are included in the audit folder.
+
+## Ovary atlas intake and diagnostic
+
+The [University of Michigan ovary atlas assessment](benchmarks/ovary-atlas/README.md) matched all 4,873,085 raw count values to GeomxTools. Its annotation workbook includes area and nuclei measurements, but the row-to-AOI linkage remains provisional. A prospectively specified donor 2 centroid comparison failed: 112,052 of 168,084 values exceeded the 1e-6 tolerance. Three clusters match and six do not. These results do not establish an author error or full pipeline validation. The failed diagnostic, source hashes, assumptions and reproduction scripts are preserved. Dataset completeness requires reliable identifier linkage as well as populated metadata columns.
 
 ## Scientific boundaries
 
@@ -85,4 +93,4 @@ See `THIRD_PARTY.md` and preserved dependency license files. Our MIT license doe
 - Endometriosis data: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE263897
 - Endometriosis paper: https://doi.org/10.1016/j.isci.2025.111790
 
-No synced project source documents are available in this local mirror. Private-engine integration remains optional and does not assume an unavailable contract. No public repository or signed/notarized UVIE application has been published.
+No synced project source documents are available in this local mirror. Private-engine integration remains optional and does not assume an unavailable contract. The repository and developer-preview packages are public. The application has not been signed or notarized.

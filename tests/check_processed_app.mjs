@@ -1,0 +1,37 @@
+import {createRequire} from 'node:module';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {resolve} from 'node:path';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const directory=resolve(process.argv[2]);await mkdir(directory,{recursive:true});
+const browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})});
+try {
+ const page=await browser.newPage({viewport:{width:1280,height:1000}});const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(process.env.UVIE_TEST_URL || 'http://127.0.0.1:8767');
+ await page.waitForFunction(()=>document.querySelector('#status')?.textContent.includes('Ready.'));
+ await page.evaluate(()=>document.querySelector('#source').selectize.setValue('processed'));
+ await page.getByRole('button',{name:'Load processed expression',exact:true}).waitFor();
+ await page.locator('#datazip').setInputFiles(resolve(directory,'baylor-processed.zip'));
+ await page.waitForFunction(()=>[...document.querySelectorAll('.progress-bar')].some(e=>e.textContent.includes('Upload complete')));
+ await page.getByRole('button',{name:'Load processed expression',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#status')?.textContent.includes('11628 targets across 80 biological compartments'),{},{timeout:60000});
+ await page.locator('#gene').locator('..').locator('.selectize-input input').fill('C3');
+ await page.locator('.selectize-dropdown .option[data-value="C3"]').click();
+ await page.waitForFunction(()=>document.querySelector('#current_gene')?.textContent==='C3' && document.querySelector('#observations table tbody tr'));
+ const download=page.waitForEvent('download');await page.locator('#evidence').click();await(await download).saveAs(resolve(directory,'processed-evidence.json'));
+ const evidence=JSON.parse(await readFile(resolve(directory,'processed-evidence.json'),'utf8'));
+ const expected=JSON.parse(await readFile(resolve(directory,'expected-C3.json'),'utf8'));
+ if(evidence.gene!=='C3'||evidence.schema_version!==2||evidence.scale!=='log2'||evidence.value_type!=='log2 Q3-normalized RNA'||evidence.observations.length!==80)throw Error('Evidence type, scale or sample count incorrect');
+ for(const row of evidence.observations)if(Math.abs(row.expression_value-expected[row.sample])>1e-12)throw Error('Export altered supplied expression for '+row.sample);
+ if(evidence.workflow.supplied_provenance.qc_status!=='partial'||!evidence.workflow.provenance_verification.includes('not independently verified'))throw Error('Processing limitations lost');
+ const bundle=page.waitForEvent('download');await page.locator('#bundle').click();await(await bundle).saveAs(resolve(directory,'processed-run.zip'));
+ await page.screenshot({path:resolve(directory,'processed-app.png'),fullPage:true});
+ await page.locator('#datazip').setInputFiles(resolve(directory,'invalid-processed.zip'));
+ await page.waitForFunction(()=>[...document.querySelectorAll('.progress-bar')].some(e=>e.textContent.includes('Upload complete')));
+ await page.getByRole('button',{name:'Load processed expression',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('#status')?.textContent.includes('must match exactly'),{},{timeout:30000});
+ await page.waitForFunction(()=>!document.querySelector('#observations table tbody tr'));
+ if(errors.length)throw Error(errors.join('\n'));
+ const report={status:'pass',checks:['published 11628-gene 80-compartment input through interface','reversed metadata aligned by identifiers','all 80 C3 values preserved in export','log scale and partial QC provenance retained','run bundle download','mismatched metadata rejected and stale findings cleared','no browser errors']};
+ await writeFile(resolve(directory,'processed-app-checks.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+} finally {await browser.close();}

@@ -1,0 +1,22 @@
+{
+  "study": "GSE260686",
+  "phase": "prospective diagnostic before candidate normalized values are calculated",
+  "purpose": "Assess complete public metadata and test documented processing without claiming full author QC replication",
+  "primary_reference": "Published Data S2 donor 2 cluster centroids",
+  "primary_procedure": [
+    "Import all 259 DCCs using unchanged Python parser and compare with GeomxTools",
+    "Treat Data S1 row order to GEO donor AOI numbering as a provisional mapping, not an explicit sample-ID join",
+    "For donor 2 use its 165 AOIs without ROI consolidation as specified by the paper",
+    "Use GeoMx DA count shift, aggregate endogenous targets, remove NegProbe-WTX, and record software behavior",
+    "Normalize gene counts to counts per million, log2, then quantile normalize across donor 2 samples",
+    "Calculate arithmetic cluster means using Data S1 labels and compare all 18676 genes by 9 clusters to Data S2"
+  ],
+  "tolerance": {"atol": 0.000001, "rtol": 0},
+  "limits": [
+    "The paper's default-QC description does not identify exact software settings; this is not independent full QC replication",
+    "No kidney QC thresholds or Q3 normalization will be substituted for the paper's CPM and quantile workflow",
+    "A failed comparison will be retained; no tuning to force agreement",
+    "The metadata mapping remains provisional unless independently supported; matching totals alone is insufficient",
+    "Healthy donor data cannot establish disease associations"
+  ]
+}

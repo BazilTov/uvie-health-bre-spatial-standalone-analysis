@@ -41,6 +41,8 @@ jobs:
           python scripts/copy_runtime.py
       - name: Test intake and comparison code
         run: python -m unittest discover -s tests -v
+      - name: Test processed expression integrity checks
+        run: Rscript tests/check_processed_input.R
       - name: Install browser-test dependencies
         run: |
           npm install --no-save playwright@1.62.1
@@ -62,6 +64,12 @@ jobs:
         run: |
           mkdir -p output
           node tests/check_app.mjs output
+      - name: Test processed expression with pinned public lung data
+        env:
+          UVIE_TEST_URL: http://127.0.0.1:8765
+        run: |
+          python tests/prepare_processed_fixture.py output/processed-input --download
+          node tests/check_processed_app.mjs output/processed-input
       - name: Record validation for this runner
         run: |
           python -c "import json,platform,pathlib;pathlib.Path('runtime/platform-validation.json').write_text(json.dumps({'platform':platform.system(),'architecture':platform.machine(),'status':'CI app checks passed','scope':'reference execution and displayed checkpoints; see test artifacts'}))"
@@ -89,4 +97,6 @@ jobs:
             output/app-failure*
             output/app-run.log
             output/runtime-setup.log
+            output/processed-input/processed-app-checks.json
+            output/processed-input/processed-evidence.json
             output/unpacked-checks/

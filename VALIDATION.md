@@ -47,3 +47,10 @@ Vendor ZIP: 281 records, comprising 277 biological compartments and four control
 ### Correction and probe-QC follow-up
 
 The initial negative-control differences were caused by our diagnostic omitting the documented probe QC/outlier-handling stage, not an established error in the authors' normalized matrix. A separately recorded follow-up added the authors' fixed probe-QC settings, without tuning them. All 930,320 conditional values now pass the same absolute tolerance of 1e-6; all 80 negative-control values match exactly. Overall residual sample SD is 4.3016735962262953e-16 and maximum absolute error is 9.947598300641403e-14. The initial failure reports remain published as history. Full QC/sample selection, metadata and provenance reconciliation remain unresolved. See the audit folder's follow-up reports and scripts.
+
+
+## Development update: processed-expression input
+
+The development source adds a study-method-preserving processed-input route. [Local browser checks and reproduction instructions](benchmarks/processed-input/README.md) cover the published 11,628-gene, 80-compartment lung matrix, keyed metadata alignment, full-precision gene export, retained upstream-processing limitations, run downloads and invalid-input rejection. The full kidney UI regression also passed after these changes. These local checks do not update the existing release ZIPs or establish native validation of a new release.
+
+The separate [ovary atlas diagnostic](benchmarks/ovary-atlas/README.md) passed exact raw import but failed the predeclared donor 2 centroid comparison. Its metadata linkage remains provisional. It is not a completed full-pipeline benchmark and supplies no evidence of author error.

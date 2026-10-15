@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "checks": [
+    "bundled launcher",
+    "UI-triggered full reference pipeline",
+    "four published dimensional checkpoints",
+    "normalized gene evidence export",
+    "run-output archive download",
+    "no browser errors",
+    "phone layout"
+  ]
+}

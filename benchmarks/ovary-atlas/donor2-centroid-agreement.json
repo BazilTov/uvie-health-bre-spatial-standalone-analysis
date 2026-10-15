@@ -1,0 +1,15 @@
+{
+  "status": "fail",
+  "scope": "Conditional donor 2 published cluster centroids; provisional row-to-AOI mapping and unspecified author default QC not independently established.",
+  "atol": 1e-06,
+  "rtol": 0,
+  "compared_values": 168084,
+  "missing_values": 0,
+  "extra_values": 0,
+  "outside_tolerance": 112052,
+  "mean_signed_error": -0.001452719065811925,
+  "residual_sample_sd": 0.08538051801220199,
+  "mae": 0.042038603972621436,
+  "rmse": 0.08539262192097731,
+  "max_absolute_error": 1.4192713355981708
+}

@@ -1,0 +1,28 @@
+{
+  "sample_count": 259,
+  "area_present_positive_finite": true,
+  "nuclei_present_nonnegative_integer": true,
+  "nuclei_zero_count": 8,
+  "raw_sample_titles_contiguous": {
+    "1": true,
+    "2": true
+  },
+  "authors_removed_annotation_rows": [
+    {
+      "donor": "1",
+      "aoi": "2",
+      "roi": "2"
+    },
+    {
+      "donor": "1",
+      "aoi": "33",
+      "roi": "31"
+    }
+  ],
+  "mapping_status": "Provisional row-sequence mapping, not a keyed join; test against published reference centroids pending",
+  "distinct_recorded_ROI_labels_by_donor": {
+    "1": 74,
+    "2": 141
+  },
+  "ROI_label_limit": "Counts of distinct recorded labels after forward filling merged ROI cells; not a verified count of independent biological ROIs."
+}

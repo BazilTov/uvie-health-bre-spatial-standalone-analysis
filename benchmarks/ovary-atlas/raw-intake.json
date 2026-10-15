@@ -1,0 +1,14 @@
+{
+  "sample_records": 259,
+  "raw_DCC_files": 259,
+  "donor_sample_counts": {
+    "1": 94,
+    "2": 165
+  },
+  "all_GEO_listed_files_in_archive": true,
+  "annotation_rows_excluding_headers": {
+    "Donor 1": 94,
+    "Donor 2": 165
+  },
+  "status": "Archive and sample record coverage checked; exact row-to-AOI annotation linkage and processing validation remain pending."
+}

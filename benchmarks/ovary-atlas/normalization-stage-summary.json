@@ -1,0 +1,16 @@
+{
+  "features": 18676,
+  "samples": 165,
+  "clusters": {
+    "1": 16,
+    "2": 28,
+    "3": 21,
+    "4": 9,
+    "5": 38,
+    "6": 6,
+    "7": 16,
+    "8": 20,
+    "9": 11
+  },
+  "scope": "Conditional donor 2 normalization using provisional row-to-AOI mapping; not full author QC replication"
+}
