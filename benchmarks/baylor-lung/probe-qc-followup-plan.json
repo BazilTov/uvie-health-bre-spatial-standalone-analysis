@@ -1,0 +1,9 @@
+{
+  "status": "recorded before follow-up candidate calculation",
+  "hypothesis": "The previously omitted probe QC/outlier handling in the paper-linked script explains the 24 negative-control differences in the initial conditional normalization check.",
+  "basis": "Authors' inspected geomxtools.R applies setBioProbeQCFlags(minProbeRatio=0.1, percentFailGrubbs=20, removeLocalOutliers=TRUE), then excludes LowProbeRatio and GlobalGrubbsOutlier flags before aggregateCounts.",
+  "change_from_initial_test": "Add only the documented probe QC/outlier stage before aggregation. Keep inputs, published sample/target selection, shifting, Q3 quantile, plain log2, and tolerances unchanged.",
+  "cohort_condition": "Use the same 80 published samples. The authors' full segment QC cohort is not independently reproduced.",
+  "evaluation": {"absolute_tolerance": 0.000001, "relative_tolerance": 0, "compare_separately": ["all targets", "endogenous genes", "negative control"], "preserve_initial_failures": true},
+  "restrictions": ["Do not tune probe thresholds to obtain a pass", "Do not replace initial comparison files", "A passing follow-up supports consistency with the documented handling; it does not prove exact author provenance", "Nuclei, segment threshold, area, workbook, and template-control issues remain separate"]
+}

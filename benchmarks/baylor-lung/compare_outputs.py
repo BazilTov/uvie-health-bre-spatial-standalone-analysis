@@ -21,3 +21,15 @@ for name, selected in [('all_targets', None), ('endogenous_genes', False), ('neg
     report[name] = spatial.compare(subset(reference), subset(candidate), atol=1e-6, rtol=0)
 (root / 'regenerated-normalization-agreement.json').write_text(json.dumps(report, indent=2))
 print(json.dumps({'raw': raw, 'normalized': report}, indent=2))
+
+followup_path = root / 'probe-qc-followup-log2-q3.csv'
+if followup_path.exists():
+    followup = spatial.read_matrix(followup_path)
+    followup_report = {'scope': 'Separate probe-QC follow-up; published inclusion sets supplied'}
+    for name, selected in [('all_targets', None), ('endogenous_genes', False), ('negative_control', True)]:
+        def selected_rows(matrix):
+            return matrix if selected is None else {g: values for g, values in matrix.items()
+                                                   if (g in controls) == selected}
+        followup_report[name] = spatial.compare(selected_rows(reference), selected_rows(followup), atol=1e-6, rtol=0)
+    (root / 'regenerated-probe-qc-followup-agreement.json').write_text(json.dumps(followup_report, indent=2))
+    print(json.dumps({'probe_qc_followup': followup_report}, indent=2))

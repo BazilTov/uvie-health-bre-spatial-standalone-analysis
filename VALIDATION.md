@@ -37,7 +37,11 @@ Vendor ZIP: 281 records, comprising 277 biological compartments and four control
 
 - Raw import: 2,182,540 values matched GeomxTools exactly, including all 116 raw records and the two GEO-declared controls.
 - Conditional Q3/log2: 930,240 endogenous values passed absolute tolerance 1e-6; residual sample SD 4.301858470273566e-16, maximum error 9.947598300641403e-14. Published sample/target selection was supplied rather than independently reproduced.
-- **Overall normalized comparison FAIL:** 24 of 930,320 values exceed tolerance. All 24 are among the 80 negative-control values; maximum difference 0.05616840880633989 log2 units. Overall residual SD 0.00014061772681318524. The gene-only pass must not be presented as an overall matrix pass.
+- **Initial conditional normalized comparison FAIL:** 24 of 930,320 values exceed tolerance. All 24 are among the 80 negative-control values; maximum difference 0.05616840880633989 log2 units. Overall residual SD 0.00014061772681318524. The gene-only pass must not be presented as an overall matrix pass.
 - Eight included samples have GEO nuclei counts below the stated 100-nuclei cutoff. The paper states 10% segment detection; the paper-linked, related-study script uses 5%. The linked code also uses an area filter, but area is absent from the inspected GEO sample characteristics, and its original annotation workbook was not supplied there.
 - Control-label conventions were not recovered; no NTC-QC result is claimed. The linked code is associated with a related overlapping-cohort paper, not established as the exact GEO-matrix-generating version.
 - These are unresolved provenance/processing differences, not evidence of misconduct. No biological or clinical validity is inferred.
+
+### Correction and probe-QC follow-up
+
+The initial negative-control differences were caused by our diagnostic omitting the documented probe QC/outlier-handling stage, not an established error in the authors' normalized matrix. A separately recorded follow-up added the authors' fixed probe-QC settings, without tuning them. All 930,320 conditional values now pass the same absolute tolerance of 1e-6; all 80 negative-control values match exactly. Overall residual sample SD is 4.3016735962262953e-16 and maximum absolute error is 9.947598300641403e-14. The initial failure reports remain published as history. Full QC/sample selection, metadata and provenance reconciliation remain unresolved. See the audit folder's follow-up reports and scripts.

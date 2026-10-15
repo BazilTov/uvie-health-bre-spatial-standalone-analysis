@@ -11,7 +11,7 @@ This audit evaluates the released importer and analysis components on an additio
 
 The analysis components correspond to application commit `a62687629a36f1b787a75fc657f63b51fb9ff3f0`. `input-manifest.json` pins the four downloaded files by SHA-256 and records their public URLs. No settings were adjusted after viewing the candidate normalized differences. The normalization plan was saved before that calculation; the plan is a local pre-execution record, not an externally timestamped preregistration.
 
-## Results, including failures
+## Initial diagnostic results, including failures
 
 The raw DCC archive contains 116 files, including two GEO-declared controls. The published normalized matrix has 80 sample columns and **11,629 target rows: 11,628 endogenous genes plus one negative-control target**.
 
@@ -24,9 +24,23 @@ The raw DCC archive contains 116 files, including two GEO-declared controls. The
 
 The normalized comparison uses an absolute tolerance of **1e-6 log2 units**, with no relative tolerance. Raw import uses zero tolerance. SD describes differences between calculations, not tissue-to-tissue biological variation. Bias, MAE, RMSE, ID coverage, and other metrics are retained in the JSON reports; a small SD alone is not proof of agreement.
 
-`negative-control-differences.csv` contains all 80 control comparisons, including the 24 failures. The cause of these differences has not been established. Probe-outlier handling is one possible explanation to investigate, not a verified conclusion.
+`negative-control-differences.csv` contains all 80 control comparisons, including the 24 failures. The follow-up below resolves these differences by adding the authors' documented probe QC, which our initial diagnostic omitted. These initial failures remain preserved as historical results, not as evidence of errors in the authors' normalized matrix.
 
-## What the conditional check actually did
+## Follow-up: negative-control differences resolved
+
+**Correction:** the initial negative-control differences arose when our diagnostic omitted the authors' documented probe QC/outlier-handling stage. They are not evidence of an error in the authors' normalized values. The initial test and its failures remain available above; the follow-up is a separate hypothesis test informed by those initial findings, not a fresh blind validation.
+
+Before running the follow-up, we recorded `probe-qc-followup-plan.json`. We added `setBioProbeQCFlags` with the inspected script's fixed settings (`minProbeRatio=0.1`, `percentFailGrubbs=20`, `removeLocalOutliers=TRUE`) and its global/ratio exclusion rules before aggregation. We did not tune those values against the reference. All other conditional selections and transformations were unchanged.
+
+- The probe stage marked 24 local count measurements as missing. No probes failed the global Grubbs or low-ratio checks.
+- **All 930,320 conditional normalized values now pass** the same absolute tolerance of 1e-6 log2 units, with no missing or extra values.
+- All 80 negative-control values now match exactly. The initial 24 control differences are resolved.
+- Overall residual sample SD: **4.3016735962262953e-16**; maximum absolute difference: **9.947598300641403e-14**.
+- The 930,240 endogenous values retain their passing result.
+
+`probe-qc-followup-agreement.json`, `probe-qc-stage-summary.json`, and `probe-qc-followup-control-differences.csv` record the results. This demonstrates consistency with the documented outlier handling under the supplied sample/target selections. It does not independently establish the exact author code provenance or reproduce full QC. The nuclei, segment-detection threshold, area, original annotation, and NTC-label questions below remain unresolved; none is established as author misconduct or a demonstrated error.
+
+## What the initial conditional check actually did
 
 1. Read the public DCC and PKC files with GeomxTools and a metadata table derived from GEO.
 2. Apply `shiftCountsOne(useDALogic=TRUE)` as in the paper-linked script.
@@ -35,7 +49,7 @@ The normalized comparison uses an absolute tolerance of **1e-6 log2 units**, wit
 5. Run GeomxTools Q3 normalization at the 75th percentile and apply plain log2 without an additional pseudocount.
 6. Compare by target and sample identifier, keeping endogenous and negative-control results separate.
 
-Supplying the published inclusion sets conditions the test on the authors' choices. It does not verify that our QC would independently select those same samples or genes. This calculation does not run the authors' probe-outlier QC, segment QC, or differential-expression analysis. It leaves the public application code and kidney workflow unchanged.
+Supplying the published inclusion sets conditions the test on the authors' choices. It does not verify that our QC would independently select those same samples or genes. The initial calculation did not run the authors' probe-outlier QC, segment QC, or differential-expression analysis. The follow-up adds only probe QC; segment QC and differential-expression analysis remain outside scope. It leaves the public application code and kidney workflow unchanged.
 
 ## Discrepancies and unresolved provenance
 
@@ -58,3 +72,5 @@ These are maintainer diagnostics requiring Python and the documented R libraries
 4. Run `python benchmarks/baylor-lung/compare_outputs.py DATA_DIRECTORY` to regenerate the comparison reports.
 
 The pinned session information records the actual GeomxTools 3.14.0 / R 4.5.2 environment. Normalization diagnostics are explicitly separate from the existing full kidney application benchmark.
+
+For the follow-up, run `Rscript benchmarks/baylor-lung/probe-qc-followup.R DATA_DIRECTORY`. Its output has a separate filename and does not overwrite the initial diagnostic. Run `python benchmarks/baylor-lung/compare_outputs.py DATA_DIRECTORY` again to generate a separate follow-up report using the same target/sample alignment and fixed tolerances.

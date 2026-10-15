@@ -1,0 +1,55 @@
+{
+  "scope": "Follow-up hypothesis test: authors documented probe QC added to conditional normalization; published sample/target selection still supplied",
+  "stage": {
+    "features_before": 18815,
+    "low_probe_ratio": 0,
+    "global_grubbs": 0,
+    "missing_counts_after_local_handling": 24,
+    "features_after": 18815
+  },
+  "all_targets": {
+    "status": "pass",
+    "scope": "Supplied matrices only; no claim about other processing stages",
+    "atol": 1e-06,
+    "rtol": 0,
+    "compared_values": 930320,
+    "missing_values": 0,
+    "extra_values": 0,
+    "outside_tolerance": 0,
+    "mean_signed_error": -9.627692915841838e-18,
+    "residual_sample_sd": 4.3016735962262953e-16,
+    "mae": 1.7676785976822674e-17,
+    "rmse": 4.302748550078485e-16,
+    "max_absolute_error": 9.947598300641403e-14
+  },
+  "endogenous_genes": {
+    "status": "pass",
+    "scope": "Supplied matrices only; no claim about other processing stages",
+    "atol": 1e-06,
+    "rtol": 0,
+    "compared_values": 930240,
+    "missing_values": 0,
+    "extra_values": 0,
+    "outside_tolerance": 0,
+    "mean_signed_error": -9.628520890808644e-18,
+    "residual_sample_sd": 4.301858470273566e-16,
+    "mae": 1.7678306168255147e-17,
+    "rmse": 4.302933562808348e-16,
+    "max_absolute_error": 9.947598300641403e-14
+  },
+  "negative_control": {
+    "status": "pass",
+    "scope": "Supplied matrices only; no claim about other processing stages",
+    "atol": 1e-06,
+    "rtol": 0,
+    "compared_values": 80,
+    "missing_values": 0,
+    "extra_values": 0,
+    "outside_tolerance": 0,
+    "mean_signed_error": 0.0,
+    "residual_sample_sd": 0.0,
+    "mae": 0.0,
+    "rmse": 0.0,
+    "max_absolute_error": 0.0
+  }
+}
