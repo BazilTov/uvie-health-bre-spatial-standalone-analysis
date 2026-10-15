@@ -7,7 +7,7 @@ permissions:
   contents: write
 jobs:
   publish:
-    if: github.event.release.tag_name == 'v0.3.0-preview'
+    if: github.event.release.tag_name == 'v0.4.0-preview'
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     steps:
@@ -19,13 +19,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api repos/${{ github.repository }}/actions/runs/38672756904 > tested-run.json
-          gh api repos/${{ github.repository }}/actions/runs/38672756904/jobs > tested-jobs.json
+          gh api repos/${{ github.repository }}/actions/runs/38759141204 > tested-run.json
+          gh api repos/${{ github.repository }}/actions/runs/38759141204/jobs > tested-jobs.json
           python3 - <<'PY'
           import json
           run=json.load(open('tested-run.json'))
           jobs=json.load(open('tested-jobs.json'))['jobs']
-          assert run['head_sha']=='e37725ec86864362a2254ef58850026cd94f2535'
+          assert run['head_sha']=='55c634c55a231a0ba6d8c3e9d7f2bb7cefe7a23b'
           assert run['conclusion']=='success'
           expected={'package (macos-14)','package (macos-15-intel)','package (windows-2022)','package (ubuntu-22.04)'}
           assert {j['name'] for j in jobs}==expected
@@ -33,16 +33,28 @@ jobs:
           assert all(next(s for s in j['steps'] if s['name']=='Verify the unpacked release')['conclusion']=='success' for j in jobs)
           assert all(next(s for s in j['steps'] if s['name']=='Test processed expression with pinned public lung data')['conclusion']=='success' for j in jobs)
           assert all(next(s for s in j['steps'] if s['name']=='Test processed expression integrity checks')['conclusion']=='success' for j in jobs)
+          assert all(next(s for s in j['steps'] if s['name']=='Test spatial coordinates and image integrity')['conclusion']=='success' for j in jobs)
+          assert all(next(s for s in j['steps'] if s['name']=='Test tissue maps with pinned public Visium data')['conclusion']=='success' for j in jobs)
           PY
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: 38672756904
+          run-id: 38759141204
           pattern: UVIE-Spatial-*
           path: tested-artifacts
       - name: Verify checksums and prepare downloads
         run: python3 scripts/prepare_release_assets.py tested-artifacts release-assets
+      - name: Prepare attributed public tissue-map example
+        run: |
+          python3 tests/prepare_spatial_fixture.py public-example --download
+          cp public-example/visium-spatial.zip release-assets/Visium-mouse-brain-six-gene-example.zip
+          cp public-example/fixture-intake.json release-assets/EXAMPLE-PROVENANCE.json
+          python3 - <<'PY'
+          import hashlib,pathlib
+          root=pathlib.Path('release-assets')
+          (root/'SHA256SUMS.txt').write_text(''.join(f'{hashlib.file_digest(p.open("rb"),"sha256").hexdigest()}  {p.name}\n' for p in sorted(root.iterdir()) if p.is_file() and p.name!='SHA256SUMS.txt'))
+          PY
       - name: Attach complete packages and instructions
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload v0.3.0-preview release-assets/* --repo ${{ github.repository }}
+        run: gh release upload v0.4.0-preview release-assets/* --repo ${{ github.repository }}

@@ -24,9 +24,9 @@ for runner, label in names.items():
         bad = archive.testzip()
         if bad:
             raise SystemExit(f'Corrupt ZIP entry: {bad}')
-        if not all(name in archive.namelist() for name in ('UVIE-Spatial/app.R','UVIE-Spatial/processed_input.R','UVIE-Spatial/PROCESSED-INPUT.md')):
+        if not all(name in archive.namelist() for name in ('UVIE-Spatial/app.R','UVIE-Spatial/processed_input.R','UVIE-Spatial/PROCESSED-INPUT.md','UVIE-Spatial/spatial_input.R','UVIE-Spatial/SPATIAL-INPUT.md')):
             raise SystemExit(f'Missing application: {runner}')
-    destination = output / f'UVIE-Health-BRE-Spatial-Standalone-v0.3.0-{label}.zip'
+    destination = output / f'UVIE-Health-BRE-Spatial-Standalone-v0.4.0-{label}.zip'
     shutil.copyfile(package, destination)
     manifest['download_filename'] = destination.name
     destination.with_suffix('.manifest.json').write_text(json.dumps(manifest, indent=2))
@@ -36,17 +36,21 @@ for runner, label in names.items():
     processed = json.loads((package.parent / 'processed-input/processed-app-checks.json').read_text())
     if processed['status'] != 'pass':
         raise SystemExit(f'Processed-input browser evidence did not pass: {runner}')
-    verified.append({'runner': runner, 'file': destination.name, 'sha256': digest, 'checks': checks, 'processed_input_checks': processed})
+    spatial = json.loads((package.parent / 'spatial-input/spatial-browser-checks.json').read_text())
+    if spatial['status'] != 'pass':
+        raise SystemExit(f'Spatial browser evidence did not pass: {runner}')
+    verified.append({'runner': runner, 'file': destination.name, 'sha256': digest, 'checks': checks, 'processed_input_checks': processed, 'spatial_input_and_unpacked_checks': spatial})
 
 root = Path(__file__).resolve().parents[1]
 shutil.copyfile(root / 'DOWNLOAD-AND-LAUNCH.md', output / 'DOWNLOAD-AND-LAUNCH.md')
 shutil.copyfile(root / 'VALIDATION.md', output / 'VALIDATION.md')
 shutil.copyfile(root / 'PROCESSED-INPUT.md', output / 'PROCESSED-INPUT.md')
+shutil.copyfile(root / 'SPATIAL-INPUT.md', output / 'SPATIAL-INPUT.md')
 (output / 'PACKAGE-VERIFICATION.json').write_text(json.dumps({
-    'tested_commit': 'e37725ec86864362a2254ef58850026cd94f2535',
-    'tested_run': 'https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38672756904',
+    'tested_commit': '55c634c55a231a0ba6d8c3e9d7f2bb7cefe7a23b',
+    'tested_run': 'https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38759141204',
     'packages': verified,
-    'scope': 'Native application, reference checkpoints, exports, and unpacked-ZIP checks; biological validation is separate.'
+    'scope': 'Native reference and processed expression workflows, measured-coordinate tissue maps, exports and unpacked-ZIP checks; biological validation is separate.'
 }, indent=2))
 lines = []
 for path in sorted(output.iterdir()):

@@ -2,7 +2,7 @@
 
 ## Choose a complete package
 
-Download one of the four **UVIE-Health-BRE-Spatial-Standalone-v0.3.0-...zip** assets on this release page. They include R, GeoMx libraries, the application, and the kidney reference inputs. You need an existing web browser; no separate R, Python, Docker, or analysis-library installation is required.
+Download one of the four **UVIE-Health-BRE-Spatial-Standalone-v0.4.0-...zip** assets on this release page. They include R, GeoMx libraries, the application, and the kidney reference inputs. You need an existing web browser; no separate R, Python, Docker, or analysis-library installation is required.
 
 | Computer | ZIP filename ending | Launcher |
 |---|---|---|
@@ -28,6 +28,14 @@ If port 8765 is already in use, stop the earlier instance or set `UVIE_PORT` to 
 ## Explore processed expression from another study
 
 Choose **Processed expression ZIP**, select a ZIP containing matrix.csv, metadata.csv and provenance.json at its root, then click **Load processed expression**. The included PROCESSED-INPUT.md explains the format. This route preserves the supplied scale, method and QC limitations, aligns sample identifiers and separates declared controls. It does not rerun or verify upstream QC or normalization. It can explore supported compartment data across diseases and healthy tissues; it does not support every spatial platform or input format automatically.
+
+## Try the tissue map
+
+Download **Visium-mouse-brain-six-gene-example.zip** from the release assets. Leave that dataset ZIP zipped. Launch the full application, choose **Processed expression ZIP**, select the example ZIP, and click **Load processed expression**. Open **Tissue map** and choose **Gfap**, **Mbp**, or another supplied gene. Change marker opacity to inspect the underlying image, then download the map or its evidence.
+
+The example includes all 2,825 filtered spots and six selected genes from one mouse-brain section. Each spot can contain multiple cells; no cell identity is inferred. Coordinates use full-resolution source-image pixels mapped to the preview through the vendor scale factor, not an asserted micrometre calibration. This is a display/input-integrity example, not full-transcriptome normalization or disease validation. Data are from 10x Genomics under CC BY 4.0; EXAMPLE-PROVENANCE.json records the source and archive hashes.
+
+For your own inputs, see SPATIAL-INPUT.md. Pixel or micrometre coordinates, explicit section identity and measurement resolution are supported. Images are optional, but declared image mappings must pass bounds and integrity checks. The map does not compute neighborhoods, physical distances, spatial significance or treatment predictions. Public downloads grant no access to the private BRE.
 
 ## Verify a download
 
