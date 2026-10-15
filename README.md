@@ -1,6 +1,6 @@
 # UVIE Health BRE Spatial - Standalone
 
-A standalone spatial-transcriptomics analysis prototype for GeoMx tissue compartments. No UVIE account or private reasoning engine is required. Established GeoMx software performs the analysis; our application adds a local interface, evidence exports, reproducibility records, and scoped benchmark checks.
+A standalone spatial-transcriptomics analysis prototype for GeoMx tissue compartments and compatible processed expression with measured tissue coordinates. No UVIE account or private reasoning engine is required. Established GeoMx software performs the analysis; our application adds a local interface, evidence exports, reproducibility records, and scoped benchmark checks.
 
 ## Full package for researchers
 
@@ -10,7 +10,7 @@ Choose **Packaged kidney reference**, then **Run reference pipeline**. Example i
 
 Runs bind to your computer's loopback interface. No account, cloud processing, automatic package installation, or data upload to UVIE occurs. Closing the launch terminal ends the application. Download run outputs before closing it.
 
-Full releases are platform-specific. Windows uses `launch.bat`; Linux and Mac use `launch.command`. Native build, application, and unpacked-ZIP checks passed for Apple-silicon Mac (macos-14), Intel Mac (macos-15-intel), Windows (windows-2022), and Linux (ubuntu-22.04). [Verification run](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38672756904). Complete packages, checksums, and launch instructions are available in the [v0.3.0 developer-preview release](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/releases/tag/v0.3.0-preview). Only platforms with successful native execution checks should be offered as ready-to-use public downloads. Linux compatibility depends on the tested distro/glibc baseline; this is not a promise for every OS.
+Full releases are platform-specific. Windows uses `launch.bat`; Linux and Mac use `launch.command`. Native build, application, and unpacked-ZIP checks passed for Apple-silicon Mac (macos-14), Intel Mac (macos-15-intel), Windows (windows-2022), and Linux (ubuntu-22.04). [Verification run](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38761301415). Complete packages, checksums, and launch instructions are available in the [v0.4.0 tissue-map preview release](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/releases/tag/v0.4.0-preview). Only platforms with successful native execution checks should be offered as ready-to-use public downloads. Linux compatibility depends on the tested distro/glibc baseline; this is not a promise for every OS.
 
 **A source ZIP differs from a full release.** It contains code and build tooling, not hundreds of megabytes of runtime libraries. End users who want no dependency installation should select a complete platform release.
 
@@ -26,7 +26,7 @@ The v0.3.0 preview and current source also accept a [processed expression ZIP](P
 
 ## Tissue-coordinate maps in current source
 
-The current source adds optional [measured coordinates and PNG tissue overlays](SPATIAL-INPUT.md) to processed-expression input. The map separates sections, preserves declared cell/spot/region resolution and units, and exports geometry alongside original expression. A public Visium example with all 2,825 filtered spots and six selected genes passed local Apple-silicon input and browser checks. This is display/import verification, not cell annotation, full-transcriptome processing or biological validation. Native release checks for this addition must pass before new full packages are offered. Published v0.3.0 packages predate this feature. The public application grants no access to the private BRE.
+The current source adds optional [measured coordinates and PNG tissue overlays](SPATIAL-INPUT.md) to processed-expression input. The map separates sections, preserves declared cell/spot/region resolution and units, and exports geometry alongside original expression. A public Visium example with all 2,825 filtered spots and six selected genes passed local Apple-silicon input and browser checks. This is display/import verification, not cell annotation, full-transcriptome processing or biological validation. The final source passed native input, kidney and lung regressions, real-data tissue-map browser checks, and execution from unpacked ZIPs on all four release platforms. See [native proof](benchmarks/spatial-map/native-verification.json). The v0.4.0 release contains tissue maps; published v0.3.0 packages predate this feature. The public application grants no access to the private BRE.
 
 ## Kidney benchmark evidence
 

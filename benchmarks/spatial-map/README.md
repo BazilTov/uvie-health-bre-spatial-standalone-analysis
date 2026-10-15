@@ -36,3 +36,7 @@ Data: [10x Genomics public dataset, CC BY 4.0](https://www.10xgenomics.com/datas
 A separate R diagnostic uses Matrix's Matrix Market reader directly on the original vendor archive, rather than calling the Python fixture converter. All **16,950 counts** in the six-gene fixture match exactly; all **2,825 positions** match the vendor barcode-keyed position table; the preview image bytes and vendor scale match exactly. See `independent-fixture-check.json` and `check_public_fixture.R`. This verifies the scoped example conversion, not biological findings or physical micrometre calibration.
 
 After preparing the fixture, reproduce with `Rscript benchmarks/spatial-map/check_public_fixture.R DATA_DIRECTORY`. The directory must contain the two original archives and the prepared `input/` folder. The diagnostic uses Matrix and jsonlite; it is not an additional end-user setup requirement.
+
+## Final native build
+
+The final application, including the constant-expression legend correction, passed all four native runners and their unpacked-ZIP checks in [the completed build](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38761301415). See native-verification.json. This supersedes the local-only development stage described above; the scientific scope remains unchanged.
