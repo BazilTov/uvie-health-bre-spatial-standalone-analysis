@@ -1,5 +1,7 @@
 # Baylor lung reference: scoped post-release audit
 
+**Current conclusion: the initial negative-control differences came from our diagnostic omitting the authors' documented probe-QC step. Adding that step resolved them; all 930,320 conditional normalized values pass. We have not demonstrated an error in the authors' normalized results.** The initial failure is retained below as historical evidence of our diagnostic limitation. Full sample-selection/QC provenance remains unresolved.
+
 This audit evaluates the released importer and analysis components on an additional public GeoMx dataset, **GSE326968**. It is not an end-to-end validation of the standalone application's custom-data interface, independent reproduction of sample/gene filtering, or evidence of biological or clinical validity. The existing published release ZIPs were not modified by this audit.
 
 ## Sources and provenance
@@ -60,7 +62,7 @@ Supplying the published inclusion sets conditions the test on the authors' choic
 5. **Control identification:** the initial GeomxTools raw import warned that the slide-column naming did not identify template controls. The conditional run supplied the slide-name alias but still warned that the expected control-label convention was absent. All 116 raw columns were compared for import, while the conditional check used the 80 published columns. No NTC-based QC result was claimed.
 6. **Reference contents:** the normalized matrix retains a negative-control row. Calling every row a gene, or omitting that row's failures from an overall pass/fail claim, would be misleading.
 
-Exact full-workflow agreement remains unresolved until the annotation, QC decisions, control processing, cohort, and matrix-generating code version can be reconciled. We have not contacted the authors or changed the reference to force agreement.
+Exact full-workflow agreement remains unresolved until the annotation, QC decisions, control processing, cohort, and matrix-generating code version can be reconciled. No author clarification has yet been incorporated into this audit. The remaining items are open reproducibility questions, not findings of wrongdoing. Reference values were not changed to force agreement.
 
 ## Reproduce the scoped checks
 

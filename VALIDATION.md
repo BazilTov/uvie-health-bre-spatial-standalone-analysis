@@ -33,6 +33,8 @@ Vendor ZIP: 281 records, comprising 277 biological compartments and four control
 
 ## Post-release second-dataset audit: Baylor lung
 
+**Current conclusion: the negative-control discrepancy originated in our initial diagnostic, which omitted documented probe QC. The follow-up resolves it and all conditional normalized values pass. The historical failure below does not establish an error by the authors.**
+
 [Full methods, reports, and discrepancies](benchmarks/baylor-lung/README.md). This audit uses released analysis components; it does not modify the published ZIPs or establish end-to-end custom-data application validation.
 
 - Raw import: 2,182,540 values matched GeomxTools exactly, including all 116 raw records and the two GEO-declared controls.

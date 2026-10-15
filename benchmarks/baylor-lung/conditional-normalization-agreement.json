@@ -51,5 +51,8 @@
     "Published matrix inclusion was supplied to normalization; filtering decisions were not reproduced.",
     "Original annotation workbook and NTC naming conventions are unavailable; no QC or NTC-based filtering was claimed.",
     "No settings were adjusted after this prespecified calculation."
-  ]
+  ],
+  "phase": "Historical initial diagnostic, before documented probe QC was added",
+  "followup_report": "probe-qc-followup-agreement.json",
+  "current_interpretation": "The initial negative-control differences arose from our omitted probe-QC step; the separate follow-up resolves them. These metrics remain unchanged as historical evidence, not an allegation of author error."
 }
