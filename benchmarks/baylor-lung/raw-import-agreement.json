@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "scope": "Supplied matrices only; no claim about other processing stages",
+  "atol": 0,
+  "rtol": 0,
+  "compared_values": 2182540,
+  "missing_values": 0,
+  "extra_values": 0,
+  "outside_tolerance": 0,
+  "mean_signed_error": 0.0,
+  "residual_sample_sd": 0.0,
+  "mae": 0.0,
+  "rmse": 0.0,
+  "max_absolute_error": 0.0
+}

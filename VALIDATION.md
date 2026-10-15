@@ -30,3 +30,14 @@ Vendor ZIP: 281 records, comprising 277 biological compartments and four control
 - The four complete packages were published in the [v0.2.0 developer-preview release](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/releases/tag/v0.2.0-preview). The publishing workflow verified original build checksums and ZIP integrity, then attached those exact package bytes with manifests, SHA256SUMS.txt, launch instructions, and provenance. Public asset digests agree with the published checksum file.
 - The Mac package is a developer preview, not a signed/notarized UVIE app release.
 - Scientific review remains separate from these software and package checks. Tests cover the listed runner environments; broader OS compatibility has not been established.
+
+## Post-release second-dataset audit: Baylor lung
+
+[Full methods, reports, and discrepancies](benchmarks/baylor-lung/README.md). This audit uses released analysis components; it does not modify the published ZIPs or establish end-to-end custom-data application validation.
+
+- Raw import: 2,182,540 values matched GeomxTools exactly, including all 116 raw records and the two GEO-declared controls.
+- Conditional Q3/log2: 930,240 endogenous values passed absolute tolerance 1e-6; residual sample SD 4.301858470273566e-16, maximum error 9.947598300641403e-14. Published sample/target selection was supplied rather than independently reproduced.
+- **Overall normalized comparison FAIL:** 24 of 930,320 values exceed tolerance. All 24 are among the 80 negative-control values; maximum difference 0.05616840880633989 log2 units. Overall residual SD 0.00014061772681318524. The gene-only pass must not be presented as an overall matrix pass.
+- Eight included samples have GEO nuclei counts below the stated 100-nuclei cutoff. The paper states 10% segment detection; the paper-linked, related-study script uses 5%. The linked code also uses an area filter, but area is absent from the inspected GEO sample characteristics, and its original annotation workbook was not supplied there.
+- Control-label conventions were not recovered; no NTC-QC result is claimed. The linked code is associated with a related overlapping-cohort paper, not established as the exact GEO-matrix-generating version.
+- These are unresolved provenance/processing differences, not evidence of misconduct. No biological or clinical validity is inferred.

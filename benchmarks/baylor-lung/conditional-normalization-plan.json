@@ -1,0 +1,9 @@
+{
+  "status": "declared before candidate normalized values are calculated",
+  "scope": "Conditional normalization check only; not reproduction of QC inclusion decisions or unchanged end-to-end application validation",
+  "input": "Public DCC files and PKC, with the exact sample and target sets supplied in the published normalized matrix",
+  "method": ["readNanoStringGeoMxSet", "shiftCountsOne(useDALogic=TRUE)", "retain published sample identifiers", "aggregateCounts", "retain published target identifiers including the negative-control target", "normalize(norm_method=quant, desiredQuantile=0.75)", "log2 with no additional pseudocount"],
+  "basis": "The paper-linked repository explicitly applies count shifting, GeomxTools Q3 normalization, and plain log2. Its cohort and QC settings are not confirmed to generate this GEO matrix.",
+  "comparison": {"atol": 0.000001, "rtol": 0, "metrics": ["mean_signed_error", "residual_sample_sd", "mae", "rmse", "max_absolute_error", "outside_tolerance", "missing_values", "extra_values"]},
+  "restrictions": ["Do not adjust transformations or thresholds after seeing errors to force agreement", "Use published inclusion sets only as a conditioning assumption, not as independent validation of filtering", "Separate negative-control results from endogenous gene results", "Do not infer biological or clinical validity"]
+}

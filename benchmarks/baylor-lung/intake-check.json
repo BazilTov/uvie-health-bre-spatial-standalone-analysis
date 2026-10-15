@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "scope": "Unmodified released Python DCC parser and probe mapper; not full QC or normalized agreement",
+  "raw_dcc_files": 116,
+  "metadata_records": 116,
+  "published_sample_columns": 80,
+  "published_samples_missing_raw": [],
+  "total_probe_mappings": 18815,
+  "endogenous_gene_targets": 18676,
+  "probe_counts_missing_mapping": 0,
+  "duplicate_dcc_identifiers": 0,
+  "notes": [
+    "Published matrix sample/gene sets are reference outputs, not independently reproduced QC decisions.",
+    "Area metadata not synthesized; no coordinates invented."
+  ],
+  "published_targets_missing_endogenous_mapping": [
+    "NegProbe-WTX"
+  ],
+  "published_targets_missing_panel": [],
+  "published_non_endogenous_rows": {
+    "NegProbe-WTX": "Negative01"
+  },
+  "published_matrix_rows": 11629
+}

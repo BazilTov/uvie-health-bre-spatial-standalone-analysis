@@ -1,0 +1,55 @@
+{
+  "scope": "Conditional Q3/log2 test using published target/sample selection; not independent QC reproduction",
+  "method_plan": "conditional-normalization-plan.json",
+  "all_targets": {
+    "status": "fail",
+    "scope": "Supplied matrices only; no claim about other processing stages",
+    "atol": 1e-06,
+    "rtol": 0,
+    "compared_values": 930320,
+    "missing_values": 0,
+    "extra_values": 0,
+    "outside_tolerance": 24,
+    "mean_signed_error": 5.856593763573988e-07,
+    "residual_sample_sd": 0.00014061772681318524,
+    "mae": 6.784499599152858e-07,
+    "rmse": 0.00014061887084123936,
+    "max_absolute_error": 0.05616840880633989
+  },
+  "endogenous_genes": {
+    "status": "pass",
+    "scope": "Supplied matrices only; no claim about other processing stages",
+    "atol": 1e-06,
+    "rtol": 0,
+    "compared_values": 930240,
+    "missing_values": 0,
+    "extra_values": 0,
+    "outside_tolerance": 0,
+    "mean_signed_error": -9.628520890808644e-18,
+    "residual_sample_sd": 4.301858470273566e-16,
+    "mae": 1.7678306168255147e-17,
+    "rmse": 4.302933562808348e-16,
+    "max_absolute_error": 9.947598300641403e-14
+  },
+  "negative_control": {
+    "status": "fail",
+    "scope": "Supplied matrices only; no claim about other processing stages",
+    "atol": 1e-06,
+    "rtol": 0,
+    "compared_values": 80,
+    "missing_values": 0,
+    "extra_values": 0,
+    "outside_tolerance": 24,
+    "mean_signed_error": 0.006810632887771792,
+    "residual_sample_sd": 0.013634032300505257,
+    "mae": 0.007889694583649295,
+    "rmse": 0.015164035466971816,
+    "max_absolute_error": 0.05616840880633989
+  },
+  "limitations": [
+    "Linked code is associated with related overlapping-cohort study; exact GEO-matrix provenance not established.",
+    "Published matrix inclusion was supplied to normalization; filtering decisions were not reproduced.",
+    "Original annotation workbook and NTC naming conventions are unavailable; no QC or NTC-based filtering was claimed.",
+    "No settings were adjusted after this prespecified calculation."
+  ]
+}

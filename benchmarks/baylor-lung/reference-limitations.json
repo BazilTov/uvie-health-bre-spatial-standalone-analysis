@@ -1,0 +1,39 @@
+{
+  "published_qc_nuclei_minimum": 100,
+  "published_matrix_columns_below_stated_minimum": [
+    {
+      "sample": "DSP-1001660018221-A-A06.dcc",
+      "nuclei": 89
+    },
+    {
+      "sample": "DSP-1001660018221-A-A07.dcc",
+      "nuclei": 91
+    },
+    {
+      "sample": "DSP-1001660018221-A-B02.dcc",
+      "nuclei": 83
+    },
+    {
+      "sample": "DSP-1001660018221-A-B04.dcc",
+      "nuclei": 99
+    },
+    {
+      "sample": "DSP-1001660018221-A-D02.dcc",
+      "nuclei": 87
+    },
+    {
+      "sample": "DSP-1001660018221-A-D07.dcc",
+      "nuclei": 72
+    },
+    {
+      "sample": "DSP-1001660018221-A-G01.dcc",
+      "nuclei": 92
+    },
+    {
+      "sample": "DSP-1001660018222-B-A06.dcc",
+      "nuclei": 95
+    }
+  ],
+  "interpretation": "Observed inconsistency between GEO sample metadata, published matrix inclusion, and the methods threshold. Could reflect different processing stages or metadata versions; not proof of an author error. Full QC reproduction cannot be claimed without reconciliation.",
+  "reference_import_warning": "The initial raw import used the GEO slide field without the reader-required slide name alias; template controls were not automatically identified. All 116 raw columns, including two declared controls, were compared. No QC or normalization was run in that raw-import check; the separate conditional normalization diagnostic has its own report and limitations."
+}

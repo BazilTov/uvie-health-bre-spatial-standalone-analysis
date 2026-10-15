@@ -31,6 +31,10 @@ Input versions matter. The vendor ZIP has 277 biological compartments; the canon
 
 Agreement is scoped. It does not independently validate biological findings, the complete filtering ground truth, clinical performance, or scientific novelty. This is a reproducible developer prototype, not parity with Stanford's virtual biotech system.
 
+## Second-dataset audit: agreement and discrepancies
+
+A [Baylor lung reference audit](benchmarks/baylor-lung/README.md) checks released analysis components on an additional public dataset. Raw import matched 2,182,540 values exactly. Conditional normalization matched 930,240 endogenous gene values within the predeclared tolerance, using the published sample and target selections. **The complete normalized matrix does not pass: 24 negative-control values differ.** Full QC reproduction remains unresolved because of nuclei/threshold differences and missing original annotation provenance. This is not end-to-end validation of the application on Baylor data. Reports, input hashes, all negative-control differences, and reproduction scripts are included in the audit folder.
+
 ## Scientific boundaries
 
 - GeoMx compartments are measured areas, not individually positioned cells.

@@ -1,0 +1,16 @@
+{
+  "repository": "https://github.com/tatsuhikonaito/CLAD_GeoMx",
+  "file": "scripts/geomxtools.R",
+  "git_blob": "198dae79b0b9eab632ed75df0f50f183f48cf219",
+  "sha256": "46d4a1fbd844cba56a594452d2fe33c756a8c285d2e02cb612a9dc33f60ab591",
+  "findings": {
+    "segment_detection_threshold_in_linked_code": 0.05,
+    "segment_detection_threshold_in_paper": 0.1,
+    "gene_detection_threshold_in_linked_code": 0.1,
+    "nuclei_minimum_in_linked_code": 100,
+    "area_minimum_in_linked_code": 1000,
+    "normalization": "GeomxTools quant 0.75 then plain log2 after shiftCountsOne",
+    "annotation_dependency": "raw_data/annotations/annotations.xlsx, not supplied in GEO files inspected",
+    "scope_warning": "Repository README cites the related AP-1 CLAD study, not this IRF7 paper specifically. Cohort overlap is described in the IRF7 paper; identical processing provenance is not established."
+  }
+}

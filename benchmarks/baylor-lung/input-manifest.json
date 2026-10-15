@@ -1,0 +1,25 @@
+{
+  "dataset": "GSE326968",
+  "analysis_components_commit": "a62687629a36f1b787a75fc657f63b51fb9ff3f0",
+  "files": {
+    "raw.tar": {
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE326nnn/GSE326968/suppl/GSE326968_RAW.tar",
+      "sha256": "7f3478ae906b31e530720b8d9334652e649b73825f8f07b704a3184b965d04a1"
+    },
+    "panel.pkc.gz": {
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE326nnn/GSE326968/suppl/GSE326968_Hs_R_NGS_WTA_v1.0.pkc.gz",
+      "sha256": "87736c8383e4247245083a510d9a707b301bec26ee9c9eded67b307d16332a7e"
+    },
+    "family.soft.gz": {
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE326nnn/GSE326968/soft/GSE326968_family.soft.gz",
+      "sha256": "1964410219e769423fb9ddaeec21e5d974ad4411b9dfcb4b213b2449fa5ac89b"
+    },
+    "published-normalized.csv.gz": {
+      "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE326nnn/GSE326968/suppl/GSE326968_geomx_Q3_log2_normalized_matrix.csv.gz",
+      "sha256": "1a746020ec656313a05b3d946dd978c7fb9f7dd037394c1a350aef11753325ca"
+    }
+  },
+  "released_spatial_py_sha256": "1541d95d01c60dd886561ff2205ff20e5066504a5c792f06acd118984e636fe3",
+  "raw_probe_comparison": "all 116 DCCs, including two declared NTC records; no QC exclusion",
+  "published_matrix": "11629 target rows: 11628 endogenous genes and one negative-control target; 80 sample columns"
+}
