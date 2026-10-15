@@ -47,8 +47,8 @@ shutil.copyfile(root / 'VALIDATION.md', output / 'VALIDATION.md')
 shutil.copyfile(root / 'PROCESSED-INPUT.md', output / 'PROCESSED-INPUT.md')
 shutil.copyfile(root / 'SPATIAL-INPUT.md', output / 'SPATIAL-INPUT.md')
 (output / 'PACKAGE-VERIFICATION.json').write_text(json.dumps({
-    'tested_commit': '55c634c55a231a0ba6d8c3e9d7f2bb7cefe7a23b',
-    'tested_run': 'https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38759141204',
+    'tested_commit': 'f646ccad2fa82e2343c6404fe098f920cdb4c98c',
+    'tested_run': 'https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38761301415',
     'packages': verified,
     'scope': 'Native reference and processed expression workflows, measured-coordinate tissue maps, exports and unpacked-ZIP checks; biological validation is separate.'
 }, indent=2))

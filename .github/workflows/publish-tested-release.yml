@@ -19,13 +19,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api repos/${{ github.repository }}/actions/runs/38759141204 > tested-run.json
-          gh api repos/${{ github.repository }}/actions/runs/38759141204/jobs > tested-jobs.json
+          gh api repos/${{ github.repository }}/actions/runs/38761301415 > tested-run.json
+          gh api repos/${{ github.repository }}/actions/runs/38761301415/jobs > tested-jobs.json
           python3 - <<'PY'
           import json
           run=json.load(open('tested-run.json'))
           jobs=json.load(open('tested-jobs.json'))['jobs']
-          assert run['head_sha']=='55c634c55a231a0ba6d8c3e9d7f2bb7cefe7a23b'
+          assert run['head_sha']=='f646ccad2fa82e2343c6404fe098f920cdb4c98c'
           assert run['conclusion']=='success'
           expected={'package (macos-14)','package (macos-15-intel)','package (windows-2022)','package (ubuntu-22.04)'}
           assert {j['name'] for j in jobs}==expected
@@ -39,7 +39,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
-          run-id: 38759141204
+          run-id: 38761301415
           pattern: UVIE-Spatial-*
           path: tested-artifacts
       - name: Verify checksums and prepare downloads
