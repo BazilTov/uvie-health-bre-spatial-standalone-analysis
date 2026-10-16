@@ -37,6 +37,7 @@ ui <- fluidPage(
         tabPanel('Neighborhoods',
           p('Describe nearby measured positions using a Euclidean radius. This is proximity, not cell contact, signaling, enrichment or a significance test.'),
           p('Uses the Tissue map section and sidebar compartment filter. Both ends of every edge must be inside that selection. Pixel distances remain pixels; region distances refer to supplied representative positions.'),
+          p('Map colors show the number of nearby measured positions, independent of gene. The selected gene affects expression summaries, not the geometric graph.'),
           numericInput('neighbor_radius','Radius in supplied coordinate units',value=100,min=.000001),
           actionButton('run_neighbors','Calculate neighborhoods'),
           verbatimTextOutput('neighbor_status'),plotOutput('neighbor_map',height='550px'),
@@ -220,7 +221,7 @@ server <- function(input, output, session) {
       values <- setNames(as.numeric(state$matrix[input$gene,]),colnames(state$matrix))
       summary <- summarize_radius_graph(graph,values)
       analysis$neighbors <- list(schema_version=1,gene=input$gene,value_type=state$value_type,scale=state$scale,
-        compartment_filter=input$region,graph=graph,observations=summary,
+        compartment_filter=input$region,graph=graph,observations=summary,workflow=state$stages,
         limits=c('Neighbor mean uses supplied expression scale and excludes the focal position; isolated positions have null means.',
                  'No spatial significance, cell identity, contact, causation or communication inference.'))
     },error=function(e) analysis$neighbor_error <- conditionMessage(e))
@@ -238,7 +239,7 @@ server <- function(input, output, session) {
     n <- analysis$neighbors;req(n)
     spatial <- state$spatial;spatial$coordinates <- n$graph$coordinates
     display <- setNames(n$observations$neighbor_count,n$observations$Sample_ID)
-    draw_spatial_map(spatial,display,input$section,paste(input$gene,'neighborhood size'),'Neighbors within radius')
+    draw_spatial_map(spatial,display,input$section,'Measured-position neighborhood size','Neighbors within radius')
   })
   output$neighbor_download <- downloadHandler(filename='uvie-neighborhood-evidence.json',content=function(file){
     req(analysis$neighbors);jsonlite::write_json(analysis$neighbors,file,pretty=TRUE,auto_unbox=TRUE,digits=NA,na='null')
@@ -250,7 +251,7 @@ server <- function(input, output, session) {
       values <- setNames(as.numeric(state$matrix[input$gene,]),colnames(state$matrix))
       result <- participant_comparison(values,state$metadata,state$scale,input$condition_a,input$condition_b,
         input$comparison_design,state$spatial,input$comparison_compartment,input$comparison_confirm)
-      result$gene <- input$gene;result$input_value_type <- state$value_type
+      result$gene <- input$gene;result$input_value_type <- state$value_type;result$workflow <- state$stages
       analysis$comparison <- result
     },error=function(e) analysis$comparison_error <- conditionMessage(e))
   })

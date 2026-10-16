@@ -123,6 +123,7 @@ jobs:
             output/spatial-input/public-neighborhood-checks.json
             output/spatial-input/neighborhood-browser.png
             output/research-input/research-browser-checks.json
+            output/research-input/research-export-checks.json
             output/research-input/participant-comparison.json
             output/research-input/neighborhood-evidence.json
             output/unpacked-checks/

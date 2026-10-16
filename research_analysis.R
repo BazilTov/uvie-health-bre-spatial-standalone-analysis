@@ -23,6 +23,7 @@ build_radius_graph <- function(spatial, radius, ids=spatial$coordinates$Sample_I
   }
   table <- if(length(edges)) do.call(rbind,edges) else data.frame(section_id=character(),from=character(),to=character(),distance=numeric())
   list(edges=table,coordinates=d,radius=radius,units=spatial$config$units,resolution=spatial$config$resolution,
+       coordinate_source=spatial$config$source,
        method='Undirected Euclidean radius graph, distance <= radius; within section only; no self edges',
        scope='Selected section and compartment only; coordinate proximity is not tissue contact or communication.')
 }
