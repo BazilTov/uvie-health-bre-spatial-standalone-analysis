@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "release_url": "https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/releases/tag/v0.5.0-preview",
+  "published_assets": 18,
+  "checks": [
+    "all public asset digests agree with checksum inventory; inventory itself checked against public digest",
+    "four native archive digests match exact tested-package records",
+    "six required workflow and unpacked verification records pass for each package",
+    "both downloaded example ZIPs pass integrity checks and contain byte-identical tested inputs"
+  ],
+  "scope": "Four native packages were executed after unpacking before publication; public asset digests confirm those tested archive bytes. Small verification/example assets were downloaded and checked locally. Biological validation is separate."
+}

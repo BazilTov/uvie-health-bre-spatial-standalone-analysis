@@ -27,3 +27,7 @@ python tests/check_public_neighbors.py output/spatial-input
 ```
 
 See [method and input guide](../../RESEARCH-ANALYSIS.md). Local report names explicitly identify scope. The final revision passed all four native jobs, including execution from actual unpacked packages. See [native verification](native-verification.json), [completed workflow](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38831354353), and the separate final [local Apple-silicon unpacked-package record](local-unpacked-checks.json). These checks cover both new modules as well as existing kidney, processed-lung and tissue-map regressions. Existing v0.4.0 package verification is historical and does not cover these modules.
+
+## Published release
+
+The [v0.5.0 full preview packages](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/releases/tag/v0.5.0-preview) are published. Public checksum inventory and tested-package records agree for all four ZIPs; all 18 attached asset digests are accounted for. Downloaded public and synthetic example ZIP contents match the tested inputs. See [release verification](release-verification.json), plus SHA256SUMS.txt and PACKAGE-VERIFICATION.json on the release page. Biological and clinical validation remain separate from these software checks.
