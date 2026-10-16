@@ -45,6 +45,8 @@ jobs:
         run: Rscript tests/check_processed_input.R
       - name: Test spatial coordinates and image integrity
         run: Rscript tests/check_spatial_input.R
+      - name: Test neighborhood and participant analysis
+        run: Rscript tests/check_research_analysis.R
       - name: Install browser-test dependencies
         run: |
           npm install --no-save playwright@1.62.1
@@ -78,6 +80,14 @@ jobs:
         run: |
           python tests/prepare_spatial_fixture.py output/spatial-input --download
           node tests/check_spatial_app.mjs output/spatial-input
+          python tests/check_public_neighbors.py output/spatial-input
+      - name: Test neighborhood and participant interface
+        env:
+          UVIE_TEST_URL: http://127.0.0.1:8765
+        run: |
+          python tests/prepare_research_fixture.py output/research-input
+          node tests/check_research_app.mjs output/research-input
+          python tests/check_research_exports.py output/research-input
       - name: Record validation for this runner
         run: |
           python -c "import json,platform,pathlib;pathlib.Path('runtime/platform-validation.json').write_text(json.dumps({'platform':platform.system(),'architecture':platform.machine(),'status':'CI app checks passed','scope':'reference execution and displayed checkpoints; see test artifacts'}))"
@@ -110,4 +120,9 @@ jobs:
             output/spatial-input/spatial-browser-checks.json
             output/spatial-input/fixture-intake.json
             output/spatial-input/tissue-map-browser.png
+            output/spatial-input/public-neighborhood-checks.json
+            output/spatial-input/neighborhood-browser.png
+            output/research-input/research-browser-checks.json
+            output/research-input/participant-comparison.json
+            output/research-input/neighborhood-evidence.json
             output/unpacked-checks/

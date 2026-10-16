@@ -35,6 +35,13 @@ try {
  for(const row of evidence.observations){const column=matrix[0].indexOf(row.sample);if(column<1||Number(values[column])!==row.expression_value)throw Error('Expression mismatch');}
  for(const row of evidence.spatial.coordinates){const source=lookup.get(row.Sample_ID);if(!source||Number(source[2])!==row.x||Number(source[3])!==row.y)throw Error('Coordinates mismatched');}
  const bundle=page.waitForEvent('download');await page.locator('#bundle').click();await(await bundle).saveAs(resolve(directory,'spatial-run.zip'));
+ await page.getByRole('tab',{name:'Neighborhoods',exact:true}).click();
+ await page.locator('#neighbor_radius').fill('1000');await page.locator('#neighbor_radius').press('Tab');
+ await page.locator('#run_neighbors').click();
+ await page.waitForFunction(()=>document.querySelector('#neighbor_status')?.textContent.includes('2825 positions;'),{},{timeout:60000});
+ const graphDownload=page.waitForEvent('download');await page.locator('#neighbor_download').click();await(await graphDownload).saveAs(resolve(directory,'public-neighborhood-evidence.json'));
+ await page.screenshot({path:resolve(directory,'neighborhood-browser.png'),fullPage:true});
+ await page.getByRole('tab',{name:'Tissue map',exact:true}).click();
  await page.locator('#datazip').setInputFiles(resolve(directory,'invalid-spatial.zip'));
  await page.waitForFunction(()=>[...document.querySelectorAll('.progress-bar')].some(e=>e.textContent.includes('Upload complete')));
  await page.getByRole('button',{name:'Load processed expression',exact:true}).click();
@@ -45,7 +52,7 @@ try {
  await page.waitForFunction(()=>document.querySelector('#spatial_status')?.textContent.includes('No spatial map available'));
  await page.waitForFunction(()=>!document.querySelector('#tissue_map img'));
  if(errors.length)throw Error(errors.join('\n'));
- const report={status:'pass',scope:'Browser on the current test host; six-gene display subset, all 2825 measured spots',checks:['public input imported','registered PNG tissue map rendered','gene selection updates tissue map','spot resolution and pixel units explicit','all 2825 exported counts match source subset exactly','all 2825 exported positions match source exactly despite reversed rows','map PNG and run ZIP downloaded','missing coordinate rejected and stale map cleared','source change clears stale geometry','no browser errors']};
+ const report={status:'pass',scope:'Browser on the current test host; six-gene display subset, all 2825 measured spots',checks:['public input imported','registered PNG tissue map rendered','gene selection updates tissue map','spot resolution and pixel units explicit','all 2825 exported counts match source subset exactly','all 2825 exported positions match source exactly despite reversed rows','map PNG and run ZIP downloaded','public-data radius graph calculated and exported for independent checking','missing coordinate rejected and stale map cleared','source change clears stale geometry','no browser errors']};
  await writeFile(resolve(directory,'spatial-browser-checks.json'),JSON.stringify(report,null,2));
  console.log(JSON.stringify(report));
 } finally {await browser.close();}

@@ -48,3 +48,7 @@ Rejecting duplicate or unmatched identifiers, nonnumeric values, missing values,
 
 Current source accepts additional measured-coordinate files and registered PNG previews. See [SPATIAL-INPUT.md](SPATIAL-INPUT.md) for the exact contract and measurement limits. Existing three-file expression inputs continue to work without geometry. Published v0.3.0 packages predate tissue maps.
 
+
+## Optional condition labels for participant comparisons
+
+Add a complete `condition` column for all biological observations to enable the Participant comparison tab. Conditions are not inferred from tissue names. See [RESEARCH-ANALYSIS.md](RESEARCH-ANALYSIS.md) for section and participant aggregation, explicit study designs, inference confirmation, and limitations. Missing labels reject the import if the optional column is present.

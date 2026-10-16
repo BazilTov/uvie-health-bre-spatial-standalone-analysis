@@ -2,7 +2,7 @@
 
 ## Choose a complete package
 
-Download one of the four **UVIE-Health-BRE-Spatial-Standalone-v0.4.0-...zip** assets on this release page. They include R, GeoMx libraries, the application, and the kidney reference inputs. You need an existing web browser; no separate R, Python, Docker, or analysis-library installation is required.
+Download one of the four **UVIE-Health-BRE-Spatial-Standalone-v0.5.0-...zip** assets on this release page. They include R, GeoMx libraries, the application, and the kidney reference inputs. You need an existing web browser; no separate R, Python, Docker, or analysis-library installation is required.
 
 | Computer | ZIP filename ending | Launcher |
 |---|---|---|
@@ -35,7 +35,13 @@ Download **Visium-mouse-brain-six-gene-example.zip** from the release assets. Le
 
 The example includes all 2,825 filtered spots and six selected genes from one mouse-brain section. Each spot can contain multiple cells; no cell identity is inferred. Coordinates use full-resolution source-image pixels mapped to the preview through the vendor scale factor, not an asserted micrometre calibration. This is a display/input-integrity example, not full-transcriptome normalization or disease validation. Data are from 10x Genomics under CC BY 4.0; EXAMPLE-PROVENANCE.json records the source and archive hashes.
 
-For your own inputs, see SPATIAL-INPUT.md. Pixel or micrometre coordinates, explicit section identity and measurement resolution are supported. Images are optional, but declared image mappings must pass bounds and integrity checks. The map does not compute neighborhoods, physical distances, spatial significance or treatment predictions. Public downloads grant no access to the private BRE.
+For your own inputs, see SPATIAL-INPUT.md. Pixel or micrometre coordinates, explicit section identity and measurement resolution are supported. Images are optional, but declared image mappings must pass bounds and integrity checks. The map itself displays positions. The Neighborhoods tab computes within-section radius proximity in the supplied units; it does not infer cell contact, spatial significance or treatment predictions. Public downloads grant no access to the private BRE.
+
+## Neighborhoods and participant comparisons
+
+On the public tissue example, choose a section under **Tissue map**, then open **Neighborhoods**, enter a radius (for example 1000 source-image pixels), and press **Calculate neighborhoods**. The neighborhood map colors positions by number of neighbors; download includes every graph edge and selected-gene neighbor summary. Pixel distances do not imply micrometres.
+
+For comparisons, add complete `condition` labels to your processed metadata and open **Participant comparison**. Select one compartment, two conditions and a paired or independent-group design. Results remain descriptive until you confirm that normalized expression and study assumptions support an exploratory t-test. At least three independent participants per group or complete pairs are required for inference. The public mouse example has one participant and cannot support a multi-participant test. See **RESEARCH-ANALYSIS.md** for methods, limits and the synthetic verification example. These analyses do not connect to the private BRE.
 
 ## Verify a download
 
@@ -49,4 +55,4 @@ Download `SHA256SUMS.txt` into the same folder as your ZIP. Compare its SHA-256 
 
 ## Scope of this preview
 
-This release runs the established GeoMx kidney workflow through Q3 normalization and exports compartment-level RNA evidence. It does not infer individual-cell coordinates, drug binding, or treatment efficacy. The custom GeoMx ZIP option uses the kidney QC profile and requires study-specific review. Endometriosis processing and participant-level statistics have not yet been validated. See `VALIDATION.md` for the numerical benchmark evidence and limits.
+This release runs the established GeoMx kidney workflow through Q3 normalization and exports compartment-level RNA evidence. It does not infer individual-cell coordinates, drug binding, or treatment efficacy. The custom GeoMx ZIP option uses the kidney QC profile and requires study-specific review. Endometriosis processing remains unvalidated. Participant comparisons are exploratory and require appropriate normalized input, explicit conditions, and study-design review. See `VALIDATION.md` for the numerical benchmark evidence and limits.

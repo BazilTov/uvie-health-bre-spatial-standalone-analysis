@@ -28,6 +28,14 @@ The v0.3.0 preview and current source also accept a [processed expression ZIP](P
 
 The current source adds optional [measured coordinates and PNG tissue overlays](SPATIAL-INPUT.md) to processed-expression input. The map separates sections, preserves declared cell/spot/region resolution and units, and exports geometry alongside original expression. A public Visium example with all 2,825 filtered spots and six selected genes passed local Apple-silicon input and browser checks. This is display/import verification, not cell annotation, full-transcriptome processing or biological validation. The final source passed native input, kidney and lung regressions, real-data tissue-map browser checks, and execution from unpacked ZIPs on all four release platforms. See [native proof](benchmarks/spatial-map/native-verification.json). The v0.4.0 release contains tissue maps; published v0.3.0 packages predate this feature. The public application grants no access to the private BRE.
 
+## Neighborhood and participant analysis in development
+
+The next preview source adds [radius neighborhoods and participant-aware comparisons](RESEARCH-ANALYSIS.md). Neighborhood graphs use measured coordinates within the selected section and compartment; exports retain isolates and original expression. No tissue-contact, signaling or spatial-significance claim is made.
+
+Participant comparisons require an explicit `condition` metadata column and a selected compartment. Repeated spots are aggregated to participant summaries, with equal weighting of supplied sections. Paired designs align participant identifiers; independent groups use Welch inference only after researcher confirmation and minimum participant checks. Defaults are descriptive. These are selected-gene exploratory comparisons, with unadjusted p-values and no covariate adjustment or all-gene differential-expression model.
+
+These additions are not in the published v0.4.0 ZIPs. A v0.5.0 preview is being verified; updated full downloads will be announced only after all native and unpacked-package checks pass. Public packages continue to grant no access to the private BRE.
+
 ## Kidney benchmark evidence
 
 - Four published dimensional checkpoints match through normalization.
@@ -50,7 +58,7 @@ The [University of Michigan ovary atlas assessment](benchmarks/ovary-atlas/READM
 ## Scientific boundaries
 
 - GeoMx compartments are measured areas, not individually positioned cells.
-- Published v0.3.0 packages have no coordinate-map feature. Current source optionally accepts measured coordinates and displays tissue maps; it calculates no cell distances or neighborhoods.
+- Published v0.3.0 packages have no coordinate-map feature. Current source optionally accepts measured coordinates and displays tissue maps; the published v0.4.0 version calculates no neighborhoods. New source provides within-section radius proximity analysis with explicit coordinate units; it does not infer contact or signaling.
 - RNA counts do not establish protein abundance, binding, causation, or efficacy.
 - ROI repeats are not independent participants; inferential claims need participant-aware modeling.
 - Unknown or filtered values must not be described as absent biology.

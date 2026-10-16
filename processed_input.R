@@ -26,6 +26,7 @@ read_processed_input <- function(directory) {
   for (field in fields) if (anyNA(meta[[field]]) || any(!nzchar(trimws(meta[[field]])))) stop(paste('Metadata field is incomplete:',field))
   if (any(!meta$is_control %in% c('TRUE','FALSE'))) stop('is_control must contain TRUE or FALSE explicitly.')
   keep <- meta$is_control=='FALSE'
+  if ('condition' %in% names(meta) && (anyNA(meta$condition[keep]) || any(!nzchar(trimws(meta$condition[keep]))))) stop('Optional condition labels must be complete for every biological observation.')
   if (!any(keep)) stop('No biological compartments supplied.')
   meta[['slide name']] <- meta$tissue; meta[['class']] <- meta$participant; meta$region <- meta$compartment
   rownames(meta) <- meta$Sample_ID

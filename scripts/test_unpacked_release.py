@@ -36,6 +36,15 @@ with tempfile.TemporaryDirectory(prefix='UVIE Unpacked Release ', ignore_cleanup
                 raise RuntimeError('Public spatial fixture is required to verify the unpacked package')
             subprocess.run([shutil.which('node'), str(root / 'tests/check_spatial_app.mjs'), str(fixture)],
                            cwd=app, env=test_env, check=True, timeout=180)
+            subprocess.run([sys.executable, str(root / 'tests/check_public_neighbors.py'), str(fixture)],
+                           cwd=app, env=test_env, check=True, timeout=180)
+            research = root / 'output/research-input'
+            if not (research / 'research-fixture.zip').exists():
+                raise RuntimeError('Research-analysis fixture is required to verify the unpacked package')
+            subprocess.run([shutil.which('node'), str(root / 'tests/check_research_app.mjs'), str(research)],
+                           cwd=app, env=test_env, check=True, timeout=180)
+            subprocess.run([sys.executable, str(root / 'tests/check_research_exports.py'), str(research)],
+                           cwd=app, env=test_env, check=True, timeout=60)
         finally:
             if os.name == 'nt':
                 subprocess.run(['taskkill', '/PID', str(process.pid), '/T', '/F'], capture_output=True)

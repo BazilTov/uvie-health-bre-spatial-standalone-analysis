@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "scope": "Independent Python math.hypot brute-force comparison with R graph and browser export on public Visium coordinates; no biological inference",
+  "positions": 2825,
+  "undirected_edges": 242072,
+  "radius": 1000,
+  "units": "pixel",
+  "maximum_distance_error": 5.115907697472721e-13,
+  "checks": [
+    "every possible pair independently evaluated",
+    "edge set identical",
+    "distances agree within 1e-9",
+    "all neighbor counts and selected-gene means agree",
+    "no cross-section or self edges"
+  ]
+}

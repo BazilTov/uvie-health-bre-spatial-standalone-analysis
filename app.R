@@ -6,8 +6,9 @@ missing <- required[!vapply(required, requireNamespace, logical(1), quietly = TR
 if (length(missing)) stop(paste('Incomplete runtime package:', paste(missing, collapse = ', ')))
 root <- normalizePath(getwd())
 source(file.path(root,'processed_input.R'),local=TRUE)
+source(file.path(root,'research_analysis.R'),local=TRUE)
 ui <- fluidPage(
-  tags$head(tags$style(HTML('body{background:#f4f6f1;color:#183d3b;font:16px/1.5 system-ui}.container-fluid{max-width:1200px;padding:30px}h1{font-weight:650}.well{background:#e6ede5;border:0}pre{white-space:pre-wrap;overflow-wrap:anywhere}#observations{max-width:100%;max-height:480px;overflow:auto}#observations table{white-space:nowrap}#expression{max-width:100%;overflow:hidden}#expression img{max-width:100%;height:auto!important}.btn-primary{background:#286f5d;border-color:#286f5d}.notice{padding:16px;background:#fff4d9;margin:20px 0}.form-control{font-size:16px}'))),
+  tags$head(tags$style(HTML('body{background:#f4f6f1;color:#183d3b;font:16px/1.5 system-ui}.container-fluid{max-width:1200px;padding:30px}h1{font-weight:650}.well{background:#e6ede5;border:0}pre{white-space:pre-wrap;overflow-wrap:anywhere}#observations,#participant_table,#neighbor_table{max-width:100%;max-height:480px;overflow:auto}#observations table{white-space:nowrap}#expression{max-width:100%;overflow:hidden}#expression img{max-width:100%;height:auto!important}.btn-primary{background:#286f5d;border-color:#286f5d}.notice{padding:16px;background:#fff4d9;margin:20px 0}.form-control{font-size:16px}'))),
   titlePanel('UVIE Health BRE Spatial - Standalone'),
   p('Run the packaged GeoMx reference workflow or explore processed compartment expression with its own methods and provenance.'),
   div(class='notice', strong('Reference pipeline, not a validated clinical product. '),
@@ -33,6 +34,22 @@ ui <- fluidPage(
                  selectInput('section','Tissue section',choices=character()),
                  sliderInput('map_opacity','Expression marker opacity',min=.1,max=1,value=.8,step=.1),
                  plotOutput('tissue_map',height='650px'), downloadButton('map_png','Download tissue map')),
+        tabPanel('Neighborhoods',
+          p('Describe nearby measured positions using a Euclidean radius. This is proximity, not cell contact, signaling, enrichment or a significance test.'),
+          p('Uses the Tissue map section and sidebar compartment filter. Both ends of every edge must be inside that selection. Pixel distances remain pixels; region distances refer to supplied representative positions.'),
+          numericInput('neighbor_radius','Radius in supplied coordinate units',value=100,min=.000001),
+          actionButton('run_neighbors','Calculate neighborhoods'),
+          verbatimTextOutput('neighbor_status'),plotOutput('neighbor_map',height='550px'),
+          tableOutput('neighbor_table'),downloadButton('neighbor_download','Download neighborhood evidence')),
+        tabPanel('Participant comparison',
+          p('Compare one gene and one compartment using participants as biological units. Requires explicit participant and condition metadata; tissue names are not inferred to be conditions.'),
+          selectInput('comparison_compartment','Comparison compartment',choices=character()),
+          selectInput('condition_a','Condition A',choices=character()),selectInput('condition_b','Condition B',choices=character()),
+          selectInput('comparison_design','Study design',choices=c('Paired participants'='paired','Independent groups (Welch)'='unpaired')),
+          checkboxInput('comparison_confirm','I confirm normalized expression is comparable across these samples, participant labels identify independent biological units, and the selected design and t-test assumptions are appropriate.',FALSE),
+          p('Without confirmation, results remain descriptive. Inference requires at least three participants per group or three complete pairs. This is exploratory selected-gene analysis; p-values are unadjusted.'),
+          actionButton('run_comparison','Compare participants'),verbatimTextOutput('comparison_status'),
+          tableOutput('participant_table'),downloadButton('comparison_download','Download participant comparison')),
         tabPanel('Benchmark checkpoints', verbatimTextOutput('benchmark')),
         tabPanel('Methods and logs', p('GeoMxWorkflows supplies the reference code. The packaged runner executes it through Q3 normalization, retains source-stage matrices and session information, and does not perform treatment prediction.'),
                  verbatimTextOutput('log'))
@@ -44,6 +61,21 @@ server <- function(input, output, session) {
   state <- reactiveValues(status='Ready. No analysis has run.', directory=NULL,
                           matrix=NULL, metadata=NULL, stages=NULL, log='', benchmark=NULL,
                           value_type='Q3-normalized RNA',scale='linear',spatial=NULL)
+  analysis <- reactiveValues(neighbors=NULL,comparison=NULL,neighbor_error='',comparison_error='')
+  observeEvent(list(state$matrix,input$gene,input$region,input$section,input$neighbor_radius), {
+    analysis$neighbors <- NULL;analysis$neighbor_error <- ''
+  },ignoreInit=FALSE)
+  observeEvent(list(state$matrix,input$gene,input$comparison_compartment,input$condition_a,input$condition_b,input$comparison_design,input$comparison_confirm), {
+    analysis$comparison <- NULL;analysis$comparison_error <- ''
+  },ignoreInit=FALSE)
+  observeEvent(state$metadata,{
+    m <- state$metadata
+    conditions <- if(!is.null(m) && 'condition' %in% names(m)) sort(unique(m$condition)) else character()
+    updateSelectInput(session,'condition_a',choices=conditions,selected=if(length(conditions)) conditions[1] else character())
+    updateSelectInput(session,'condition_b',choices=conditions,selected=if(length(conditions)>1) conditions[2] else character())
+    updateSelectInput(session,'comparison_compartment',choices=if(is.null(m)) character() else sort(unique(m$region)))
+    updateCheckboxInput(session,'comparison_confirm',value=FALSE)
+  },ignoreNULL=FALSE)
   observeEvent(input$source, {
     state$spatial <- NULL
     state$matrix <- NULL; state$metadata <- NULL; state$directory <- NULL
@@ -178,6 +210,63 @@ server <- function(input, output, session) {
   output$map_png <- downloadHandler(filename=function() paste0('uvie-',input$gene,'-tissue-map.png'),content=function(file) {
     req(state$spatial);png(file,width=1600,height=1400,res=160);on.exit(dev.off());make_map()
   })
+  observeEvent(input$run_neighbors, {
+    analysis$neighbors <- NULL;analysis$neighbor_error <- ''
+    tryCatch({
+      if(is.null(state$spatial) || is.null(state$matrix)) stop('Load processed expression with valid measured coordinates first.')
+      if(is.null(input$section) || !nzchar(input$section)) stop('Choose a tissue section on the Tissue map tab.')
+      ids <- intersect(rows()$sample,state$spatial$coordinates$Sample_ID[state$spatial$coordinates$section_id==input$section])
+      graph <- build_radius_graph(state$spatial,input$neighbor_radius,ids)
+      values <- setNames(as.numeric(state$matrix[input$gene,]),colnames(state$matrix))
+      summary <- summarize_radius_graph(graph,values)
+      analysis$neighbors <- list(schema_version=1,gene=input$gene,value_type=state$value_type,scale=state$scale,
+        compartment_filter=input$region,graph=graph,observations=summary,
+        limits=c('Neighbor mean uses supplied expression scale and excludes the focal position; isolated positions have null means.',
+                 'No spatial significance, cell identity, contact, causation or communication inference.'))
+    },error=function(e) analysis$neighbor_error <- conditionMessage(e))
+  })
+  output$neighbor_status <- renderText({
+    if(nzchar(analysis$neighbor_error)) return(paste('Neighborhoods unavailable:',analysis$neighbor_error))
+    n <- analysis$neighbors
+    if(is.null(n)) return('No current neighborhood result. Changes to gene, radius, section, compartment or dataset clear previous results.')
+    paste(nrow(n$observations),'positions;',nrow(n$graph$edges),'undirected edges;',sum(n$observations$neighbor_count==0),'isolated positions.',
+          '\nRadius:',n$graph$radius,n$graph$units,'| Resolution:',n$graph$resolution,
+          '\nNeighbor means are on the supplied',n$scale,'scale. Showing at most 100 table rows; download contains all positions and edges.')
+  })
+  output$neighbor_table <- renderTable({req(analysis$neighbors);head(analysis$neighbors$observations,100)},digits=4)
+  output$neighbor_map <- renderPlot({
+    n <- analysis$neighbors;req(n)
+    spatial <- state$spatial;spatial$coordinates <- n$graph$coordinates
+    display <- setNames(n$observations$neighbor_count,n$observations$Sample_ID)
+    draw_spatial_map(spatial,display,input$section,paste(input$gene,'neighborhood size'),'Neighbors within radius')
+  })
+  output$neighbor_download <- downloadHandler(filename='uvie-neighborhood-evidence.json',content=function(file){
+    req(analysis$neighbors);jsonlite::write_json(analysis$neighbors,file,pretty=TRUE,auto_unbox=TRUE,digits=NA,na='null')
+  })
+  observeEvent(input$run_comparison, {
+    analysis$comparison <- NULL;analysis$comparison_error <- ''
+    tryCatch({
+      if(is.null(state$matrix)) stop('Load expression first.')
+      values <- setNames(as.numeric(state$matrix[input$gene,]),colnames(state$matrix))
+      result <- participant_comparison(values,state$metadata,state$scale,input$condition_a,input$condition_b,
+        input$comparison_design,state$spatial,input$comparison_compartment,input$comparison_confirm)
+      result$gene <- input$gene;result$input_value_type <- state$value_type
+      analysis$comparison <- result
+    },error=function(e) analysis$comparison_error <- conditionMessage(e))
+  })
+  output$comparison_status <- renderText({
+    if(nzchar(analysis$comparison_error)) return(paste('Comparison unavailable:',analysis$comparison_error))
+    c <- analysis$comparison
+    if(is.null(c)) return('No current participant comparison. Dataset, gene or comparison-setting changes clear previous results.')
+    paste(c$status,'\n',c$aggregation,'\nParticipants A:',c$participants_a,'| B:',c$participants_b,
+      '\nExcluded incomplete pairs:',if(length(c$excluded_incomplete_participants)) paste(c$excluded_incomplete_participants,collapse=', ') else 'none',
+      '\nEffect B minus A:',if(is.null(c$effect_b_minus_a)) 'unavailable' else signif(c$effect_b_minus_a,6),'on',c$analysis_scale,
+      if(is.null(c$test)) '' else paste('\nUnadjusted p:',signif(c$test$p_value_unadjusted,5),'| 95% CI:',paste(signif(c$test$confidence_interval_95,5),collapse=' to ')))
+  })
+  output$participant_table <- renderTable({req(analysis$comparison);analysis$comparison$participant_values},digits=5)
+  output$comparison_download <- downloadHandler(filename='uvie-participant-comparison.json',content=function(file){
+    req(analysis$comparison);jsonlite::write_json(analysis$comparison,file,pretty=TRUE,auto_unbox=TRUE,digits=NA,na='null')
+  })
   output$expression <- renderPlot({
     d <- rows(); req(nrow(d)>0)
     par(mar=c(8,4,3,1))
@@ -194,12 +283,20 @@ server <- function(input, output, session) {
       benchmark=state$benchmark,workflow=state$stages,
       spatial=if(is.null(state$spatial)) NULL else list(metadata=state$spatial$config,
         coordinates=state$spatial$coordinates[state$spatial$coordinates$Sample_ID %in% rows()$sample,,drop=FALSE]),
+      research_analysis=list(neighborhoods=analysis$neighbors,participant_comparison=analysis$comparison),
       limits=c(if(is.null(state$spatial)) 'No measured coordinates supplied.' else paste('Supplied measurement resolution:',state$spatial$config$resolution),
       'No differential-expression model has been run; observations are not significance findings.',
       'No protein abundance, causation, drug binding, or efficacy established.')), file, pretty=TRUE, auto_unbox=TRUE,digits=NA)
   })
   output$bundle <- downloadHandler(filename='uvie-spatial-run.zip',content=function(file) {
     req(state$directory)
+    # Always replace/remove derived files so exports cannot retain stale analyses.
+    exports <- c(neighborhoods='neighbors',comparison='comparison')
+    for (item in names(exports)) {
+      path <- file.path(state$directory,paste0(item,'.json'))
+      if(is.null(analysis[[exports[[item]]]])) {if(file.exists(path)) unlink(path)} else
+        jsonlite::write_json(analysis[[exports[[item]]]],path,pretty=TRUE,auto_unbox=TRUE,digits=NA,na='null')
+    }
     old <- setwd(state$directory); on.exit(setwd(old))
     zip::zipr(file, list.files('.',recursive=TRUE))
   })
