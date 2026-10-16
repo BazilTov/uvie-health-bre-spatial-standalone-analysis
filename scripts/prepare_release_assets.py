@@ -24,9 +24,9 @@ for runner, label in names.items():
         bad = archive.testzip()
         if bad:
             raise SystemExit(f'Corrupt ZIP entry: {bad}')
-        if not all(name in archive.namelist() for name in ('UVIE-Spatial/app.R','UVIE-Spatial/processed_input.R','UVIE-Spatial/PROCESSED-INPUT.md','UVIE-Spatial/spatial_input.R','UVIE-Spatial/SPATIAL-INPUT.md')):
+        if not all(name in archive.namelist() for name in ('UVIE-Spatial/app.R','UVIE-Spatial/processed_input.R','UVIE-Spatial/PROCESSED-INPUT.md','UVIE-Spatial/spatial_input.R','UVIE-Spatial/SPATIAL-INPUT.md','UVIE-Spatial/research_analysis.R','UVIE-Spatial/RESEARCH-ANALYSIS.md')):
             raise SystemExit(f'Missing application: {runner}')
-    destination = output / f'UVIE-Health-BRE-Spatial-Standalone-v0.4.0-{label}.zip'
+    destination = output / f'UVIE-Health-BRE-Spatial-Standalone-v0.5.0-{label}.zip'
     shutil.copyfile(package, destination)
     manifest['download_filename'] = destination.name
     destination.with_suffix('.manifest.json').write_text(json.dumps(manifest, indent=2))
@@ -39,18 +39,24 @@ for runner, label in names.items():
     spatial = json.loads((package.parent / 'spatial-input/spatial-browser-checks.json').read_text())
     if spatial['status'] != 'pass':
         raise SystemExit(f'Spatial browser evidence did not pass: {runner}')
-    verified.append({'runner': runner, 'file': destination.name, 'sha256': digest, 'checks': checks, 'processed_input_checks': processed, 'spatial_input_and_unpacked_checks': spatial})
+    research = json.loads((package.parent / 'research-input/research-browser-checks.json').read_text())
+    research_exports = json.loads((package.parent / 'research-input/research-export-checks.json').read_text())
+    public_graph = json.loads((package.parent / 'spatial-input/public-neighborhood-checks.json').read_text())
+    if research['status'] != 'pass' or public_graph['status'] != 'pass' or research_exports['status'] != 'pass':
+        raise SystemExit(f'Research-analysis evidence did not pass: {runner}')
+    verified.append({'research_input_and_unpacked_checks':research, 'research_export_checks':research_exports, 'independent_public_graph_checks':public_graph, 'runner': runner, 'file': destination.name, 'sha256': digest, 'checks': checks, 'processed_input_checks': processed, 'spatial_input_and_unpacked_checks': spatial})
 
 root = Path(__file__).resolve().parents[1]
 shutil.copyfile(root / 'DOWNLOAD-AND-LAUNCH.md', output / 'DOWNLOAD-AND-LAUNCH.md')
 shutil.copyfile(root / 'VALIDATION.md', output / 'VALIDATION.md')
 shutil.copyfile(root / 'PROCESSED-INPUT.md', output / 'PROCESSED-INPUT.md')
 shutil.copyfile(root / 'SPATIAL-INPUT.md', output / 'SPATIAL-INPUT.md')
+shutil.copyfile(root / 'RESEARCH-ANALYSIS.md', output / 'RESEARCH-ANALYSIS.md')
 (output / 'PACKAGE-VERIFICATION.json').write_text(json.dumps({
-    'tested_commit': 'f646ccad2fa82e2343c6404fe098f920cdb4c98c',
-    'tested_run': 'https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38761301415',
+    'tested_commit': '35b98a834c6d251cd3a7e62baf84fd23e25e0fdc',
+    'tested_run': 'https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38831354353',
     'packages': verified,
-    'scope': 'Native reference and processed expression workflows, measured-coordinate tissue maps, exports and unpacked-ZIP checks; biological validation is separate.'
+    'scope': 'Native reference and processed expression workflows, measured-coordinate tissue maps, radius neighborhoods, exploratory participant comparisons, exports and unpacked-ZIP checks; biological validation is separate.'
 }, indent=2))
 lines = []
 for path in sorted(output.iterdir()):
