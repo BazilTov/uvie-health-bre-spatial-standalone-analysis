@@ -1,0 +1,136 @@
+{
+  "status": "pass",
+  "tested_commit": "35b98a834c6d251cd3a7e62baf84fd23e25e0fdc",
+  "workflow_run": "https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38831354353",
+  "scope": "Native functional and unpacked-package software verification; not biological or clinical validation",
+  "jobs": [
+    {
+      "name": "package (macos-14)",
+      "url": "https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38831354353/job/116750617344",
+      "status": "completed",
+      "conclusion": "success",
+      "checks": [
+        {
+          "name": "Test neighborhood and participant analysis",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run full UI benchmark and exports",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test processed expression with pinned public lung data",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test tissue maps with pinned public Visium data",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test neighborhood and participant interface",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the unpacked release",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "package (macos-15-intel)",
+      "url": "https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38831354353/job/116750617620",
+      "status": "completed",
+      "conclusion": "success",
+      "checks": [
+        {
+          "name": "Test neighborhood and participant analysis",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run full UI benchmark and exports",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test processed expression with pinned public lung data",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test tissue maps with pinned public Visium data",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test neighborhood and participant interface",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the unpacked release",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "package (ubuntu-22.04)",
+      "url": "https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38831354353/job/116750617700",
+      "status": "completed",
+      "conclusion": "success",
+      "checks": [
+        {
+          "name": "Test neighborhood and participant analysis",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run full UI benchmark and exports",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test processed expression with pinned public lung data",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test tissue maps with pinned public Visium data",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test neighborhood and participant interface",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the unpacked release",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "package (windows-2022)",
+      "url": "https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38831354353/job/116750617814",
+      "status": "completed",
+      "conclusion": "success",
+      "checks": [
+        {
+          "name": "Test neighborhood and participant analysis",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run full UI benchmark and exports",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test processed expression with pinned public lung data",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test tissue maps with pinned public Visium data",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test neighborhood and participant interface",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify the unpacked release",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}

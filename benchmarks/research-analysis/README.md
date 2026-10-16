@@ -26,4 +26,4 @@ node tests/check_spatial_app.mjs output/spatial-input
 python tests/check_public_neighbors.py output/spatial-input
 ```
 
-See [method and input guide](../../RESEARCH-ANALYSIS.md). Local report names explicitly identify scope. Four-platform verification and tests from actual unpacked packages are required before publishing the new preview. Existing v0.4.0 package verification does not cover these new modules.
+See [method and input guide](../../RESEARCH-ANALYSIS.md). Local report names explicitly identify scope. The final revision passed all four native jobs, including execution from actual unpacked packages. See [native verification](native-verification.json), [completed workflow](https://github.com/BazilTov/uvie-health-bre-spatial-standalone-analysis/actions/runs/38831354353), and the separate final [local Apple-silicon unpacked-package record](local-unpacked-checks.json). These checks cover both new modules as well as existing kidney, processed-lung and tissue-map regressions. Existing v0.4.0 package verification is historical and does not cover these modules.

@@ -1,0 +1,87 @@
+{
+  "status": "pass",
+  "platform": "Apple-silicon macOS",
+  "tested_application_commit": "35b98a834c6d251cd3a7e62baf84fd23e25e0fdc",
+  "archive": {
+    "platform": "Darwin",
+    "architecture": "arm64",
+    "archive_sha256": "169903d1883314898a49705d22dd1bd3f5eda517b2c629d11b5998891c00d8d5",
+    "content_manifest_sha256": "edaf885405c06b5ceeb425a2159952d1063b8302c1c8cd1aca6d721ab6a5c7dc",
+    "files": 12629,
+    "scope": "This platform only; see VALIDATION.md for executed checks"
+  },
+  "scope": "Final local full bundle launched and executed from a fresh extraction in a path containing spaces; this host only",
+  "checks": {
+    "reference": {
+      "status": "pass",
+      "checks": [
+        "bundled launcher",
+        "UI-triggered full reference pipeline",
+        "four published dimensional checkpoints",
+        "normalized gene evidence export",
+        "run-output archive download",
+        "no browser errors",
+        "phone layout"
+      ]
+    },
+    "spatial": {
+      "status": "pass",
+      "scope": "Browser on the current test host; six-gene display subset, all 2825 measured spots",
+      "checks": [
+        "public input imported",
+        "registered PNG tissue map rendered",
+        "gene selection updates tissue map",
+        "spot resolution and pixel units explicit",
+        "all 2825 exported counts match source subset exactly",
+        "all 2825 exported positions match source exactly despite reversed rows",
+        "map PNG and run ZIP downloaded",
+        "public-data radius graph calculated and exported for independent checking",
+        "missing coordinate rejected and stale map cleared",
+        "source change clears stale geometry",
+        "no browser errors"
+      ]
+    },
+    "public_graph": {
+      "status": "pass",
+      "scope": "Independent Python math.hypot brute-force comparison with R graph and browser export on public Visium coordinates; no biological inference",
+      "positions": 2825,
+      "undirected_edges": 242072,
+      "radius": 1000,
+      "units": "pixel",
+      "maximum_distance_error": 5.115907697472721e-13,
+      "checks": [
+        "every possible pair independently evaluated",
+        "edge set identical",
+        "distances agree within 1e-9",
+        "all neighbor counts and selected-gene means agree",
+        "no cross-section or self edges"
+      ]
+    },
+    "participant_interface": {
+      "status": "pass",
+      "scope": "Synthetic known-value fixture; browser software verification, not biological validation",
+      "checks": [
+        "section-specific inclusive radius boundary",
+        "isolates retained after radius change",
+        "radius change clears stale graph",
+        "descriptive default without inference consent",
+        "three paired participants despite twelve spots",
+        "paired effect and p-value match independent closed-form expectation",
+        "downloadable graph and participant evidence",
+        "complete run export",
+        "gene change clears stale comparison",
+        "unpaired overlapping participants rejected",
+        "source change clears results",
+        "no browser errors"
+      ]
+    },
+    "exports": {
+      "status": "pass",
+      "checks": [
+        "current participant and neighborhood JSON included in complete run",
+        "original inputs unchanged",
+        "stale analysis files removed after selection changes"
+      ]
+    }
+  }
+}
