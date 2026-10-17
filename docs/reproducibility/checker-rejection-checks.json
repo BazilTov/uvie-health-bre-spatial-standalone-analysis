@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "checks": [
+    "gene mutation rejected",
+    "participants_a mutation rejected",
+    "inference_confirmed mutation rejected",
+    "incorrect p-value rejected",
+    "modified example checksum rejected"
+  ]
+}

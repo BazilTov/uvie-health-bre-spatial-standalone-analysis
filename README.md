@@ -4,6 +4,8 @@ A standalone spatial-transcriptomics research preview for GeoMx tissue compartme
 
 ## Full package for researchers
 
+**Start here:** [Reproduce the released workflow](REPRODUCE.md) brings the downloads, exact interface steps, expected results and verification records together. The [software manuscript draft](docs/manuscript/BRE-Spatial-software-manuscript.md) describes the implemented methods; its [evidence-gap register](docs/manuscript/EVIDENCE-GAPS.md) distinguishes completed checks from work needed before submission.
+
 The platform-specific developer-preview releases include **R, the analysis libraries, and the wired pipeline**. Unzip the full release and open `launch.command`. Your existing browser displays the local interface. The full package needs no separate Python, R, Docker, or analysis-library installation.
 
 Choose **Packaged kidney reference**, then **Run reference pipeline**. Example inputs are supplied by the bundled reference package. Choose a gene or compartment after processing and download its evidence or complete run outputs.

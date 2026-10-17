@@ -1,0 +1,41 @@
+{
+  "status": "pass",
+  "release": "v0.5.0-preview",
+  "checks": {
+    "download_integrity": {
+      "matched_assets": [
+        "PACKAGE-VERIFICATION.json",
+        "SHA256SUMS.txt",
+        "Synthetic-participant-verification-example.zip",
+        "Visium-mouse-brain-six-gene-example.zip"
+      ],
+      "not_checked": [
+        "DOWNLOAD-AND-LAUNCH.md",
+        "EXAMPLE-PROVENANCE.json",
+        "PROCESSED-INPUT.md",
+        "RESEARCH-ANALYSIS.md",
+        "SPATIAL-INPUT.md",
+        "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Linux-Ubuntu22.04-x64.manifest.json",
+        "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Linux-Ubuntu22.04-x64.zip",
+        "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Mac-AppleSilicon.manifest.json",
+        "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Mac-AppleSilicon.zip",
+        "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Mac-Intel.manifest.json",
+        "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Mac-Intel.zip",
+        "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Windows-x64.manifest.json",
+        "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Windows-x64.zip",
+        "VALIDATION.md"
+      ]
+    },
+    "public_graph": {
+      "positions": 2825,
+      "edges": 242072,
+      "maximum_distance_error": 5.115907697472721e-13
+    },
+    "synthetic_comparison": {
+      "synthetic_pairs": 3,
+      "effect": 2,
+      "p_value_unadjusted": 0.0741799002274485
+    }
+  },
+  "scope": "Software reproduction only; public display/geometry example and separately synthetic participant arithmetic"
+}

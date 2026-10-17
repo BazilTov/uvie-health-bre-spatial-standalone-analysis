@@ -1,6 +1,6 @@
 # Tissue-coordinate maps
 
-The current source adds an optional tissue map to processed-expression input. Previously published v0.3.0 packages do not contain this feature. This first milestone visualizes measured positions and optional registered PNG previews; it does not calculate neighborhoods, distances, differential expression or signaling.
+The v0.4.0 and v0.5.0 previews support optional tissue maps for processed-expression input. Previously published v0.3.0 packages do not contain this feature. The map visualizes measured positions and optional registered PNG previews. The v0.5.0 Neighborhoods module separately calculates radius proximity and distances; the Participant comparison module provides exploratory selected-gene contrasts. Neither establishes signaling or provides an all-gene differential-expression model. See [RESEARCH-ANALYSIS.md](RESEARCH-ANALYSIS.md) and the [reproduction walkthrough](REPRODUCE.md).
 
 Keep the three required processed-input files. Add `coordinates.csv` and `spatial.json` at the ZIP root, plus declared PNG files. Coordinates must match **every biological expression sample exactly**, excluding controls. Row order may differ. Each section must belong to one participant. A section identifier must identify one specimen section, not a repeated generic label such as “slide1” across participants.
 

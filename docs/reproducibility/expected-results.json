@@ -1,0 +1,54 @@
+{
+  "release": "v0.5.0-preview",
+  "tested_application_commit": "35b98a834c6d251cd3a7e62baf84fd23e25e0fdc",
+  "assets": {
+    "DOWNLOAD-AND-LAUNCH.md": "e952ffa0e897031b88d9d354aefcbc55e19ef5e3d0ff49a78da921b9b09388d0",
+    "EXAMPLE-PROVENANCE.json": "4fd4ba6b8fbdff4454558a766bda26e3621bafa42691295a976c5e271234f19a",
+    "PACKAGE-VERIFICATION.json": "3c053fa7900ae4501d47c3e7652929cf2df6cae44987ced974eb31f1eee47f35",
+    "PROCESSED-INPUT.md": "2d616f434b597580642d23ee7497a3d1f3dedf51cf91b2202ec6ac20957117ba",
+    "RESEARCH-ANALYSIS.md": "6e15aa4bce08a5a6d5dfe65f0633b1c5b61a30601ff93742829096c124ce208d",
+    "SHA256SUMS.txt": "d7ae52d985f0f5e45c6598db8614b43db64708f8e990c7c26ab6bf1001b22b66",
+    "SPATIAL-INPUT.md": "73acadf9c1c3439ff5c3b82311404b605ce9d5dc7ea3d901b881fcfd79e0438b",
+    "Synthetic-participant-verification-example.zip": "26517b38f302429beda528133ffeb6114c0fedb2da220a6be59fe14b756a85f6",
+    "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Linux-Ubuntu22.04-x64.manifest.json": "74a162810fa498c107668f9ab8472ba0133a0cf1b90006aa9b06b8db58835e53",
+    "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Linux-Ubuntu22.04-x64.zip": "bb287d67777c7ead981cda472bf8046c490d9eb90c0aa7c8c3975518be69967b",
+    "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Mac-AppleSilicon.manifest.json": "9154a944e07bd776d7e5ba949d16f3dd06a71faaae0b8e7ad70faf48cdd3fb9d",
+    "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Mac-AppleSilicon.zip": "ca1d9b6480682113e3cac7148f58eeb1bddb6fc7b13cc33c063b8a2ff01e0c4e",
+    "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Mac-Intel.manifest.json": "4994cca0e5b43475e7602cdcc6d34f04ba34164507b5226a54083da0a9830c20",
+    "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Mac-Intel.zip": "77f3c9a074d9f478e611baf6020ec8aef8f166648aa4782ef223314a76f9803d",
+    "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Windows-x64.manifest.json": "7b184baf3253f822c045ee353da48888898d34b37005e2ad65eeada12acf436b",
+    "UVIE-Health-BRE-Spatial-Standalone-v0.5.0-Windows-x64.zip": "d622e248fd4d567387876d0415d9cd309dd41a42b209e66ecab2f8a51b17b0b7",
+    "VALIDATION.md": "8030eb2a30b2ffec42205102fd6f68e762b70334b985c649fb937b48824de741",
+    "Visium-mouse-brain-six-gene-example.zip": "996b4f141589ad3082ae33d5f4cdbc74b0286a0b1c614caaf18a0352496f2447"
+  },
+  "public_example": {
+    "gene": "Gfap",
+    "positions": 2825,
+    "genes": 6,
+    "section": "sagittal_anterior_section_2",
+    "radius": 1000,
+    "units": "pixel",
+    "edges": 242072,
+    "distance_atol": 1e-9,
+    "expression_atol": 1e-9
+  },
+  "synthetic": {
+    "gene": "Target",
+    "design": "paired",
+    "condition_a": "A",
+    "condition_b": "B",
+    "compartment": "stroma",
+    "participants_a": 3,
+    "participants_b": 3,
+    "effect": 2,
+    "t": 3.4641016151377544,
+    "df": 2,
+    "p": 0.0741799002274485,
+    "ci": [
+      -0.48413771175033,
+      4.48413771175033
+    ],
+    "atol": 1e-10
+  },
+  "scope": "Software reproduction only; public display/geometry example and separately synthetic participant arithmetic"
+}

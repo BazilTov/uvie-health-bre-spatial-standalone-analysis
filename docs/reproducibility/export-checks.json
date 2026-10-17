@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "checks": [
+    "current participant and neighborhood JSON included in complete run",
+    "original inputs unchanged",
+    "stale analysis files removed after selection changes"
+  ]
+}

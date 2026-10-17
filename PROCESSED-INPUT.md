@@ -16,7 +16,7 @@ EPCAM,8.3,4.6
 
 ## metadata.csv
 
-Include exactly one row per matrix sample, using identical identifiers. Column order and row order may differ; the importer aligns by identifiers. Required columns are `Sample_ID`, `participant`, `tissue`, `compartment`, and `is_control`. Do not invent participant or tissue annotations to satisfy this format. Use de-identified participant labels. Mark a declared unknown explicitly, rather than treating it as a measured value. The application does not model participants or test significance.
+Include exactly one row per matrix sample, using identical identifiers. Column order and row order may differ; the importer aligns by identifiers. Required columns are `Sample_ID`, `participant`, `tissue`, `compartment`, and `is_control`. Do not invent participant or tissue annotations to satisfy this format. Use de-identified participant labels. Mark a declared unknown explicitly, rather than treating it as a measured value. Import alone performs no statistical inference. The optional v0.5.0 Participant comparison module requires actual participant identities, complete condition labels and appropriate normalized inputs; unknown participant labels do not establish independence. See [RESEARCH-ANALYSIS.md](RESEARCH-ANALYSIS.md).
 
 ```csv
 Sample_ID,participant,tissue,compartment,is_control

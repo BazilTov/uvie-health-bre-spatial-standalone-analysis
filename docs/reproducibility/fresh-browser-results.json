@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "release": "v0.5.0-preview",
+  "checks": {
+    "public_graph": {
+      "positions": 2825,
+      "edges": 242072,
+      "maximum_distance_error": 5.115907697472721e-13
+    },
+    "synthetic_comparison": {
+      "synthetic_pairs": 3,
+      "effect": 2,
+      "p_value_unadjusted": 0.0741799002274485
+    }
+  },
+  "scope": "Software reproduction only; public display/geometry example and separately synthetic participant arithmetic"
+}
